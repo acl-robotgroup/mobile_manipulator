@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:macro name="lidar" params="name parent *joint_pose">
+        <!-- rplidar s3 -->
+        <xacro:property name="radius" value="0.026"/>
+        <xacro:property name="height" value="0.0413"/>
+        <xacro:property name="optical_center_height" value="0.03055"/>
+        <xacro:property name="mass" value="0.115"/>
+
+        <link name="${name}_base">
+            <inertial>
+                <mass value="${mass}"/>
+                <origin xyz="0 0 ${height / 2}" rpy="0 0 0"/>
+                <inertia
+                    ixx="${mass * (3 * radius ** 2 + height ** 2) / 12}" ixy="0" ixz="0"
+                    iyy="${mass * (3 * radius ** 2 + height ** 2) / 12}" iyz="0"
+                    izz="${mass * radius ** 2 / 2}"
+                />
+            </inertial>
+            <visual>
+                <origin xyz="0 0 ${height / 2}" rpy="0 0 0"/>
+                <geometry>
+                    <cylinder radius="${radius}" length="${height}"/>
+                </geometry>
+                <material name="DarkGrey">
+                    <color rgba="0.2 0.2 0.2 1.0"/>
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 ${height / 2}" rpy="0 0 0"/>
+                <geometry>
+                    <cylinder radius="${radius}" length="${height}"/>
+                </geometry>
+            </collision>
+        </link>
+
+        <joint name="${name}_base_joint" type="fixed">
+            <xacro:insert_block name="joint_pose"/>
+            <parent link="${parent}"/>
+            <child link="${name}_base"/>
+        </joint>
+
+        <link name="${name}"/>
+        <joint name="${name}_laser_joint" type="fixed">
+            <origin xyz="0 0 ${optical_center_height}" rpy="0 0 0"/>
+            <parent link="${name}_base"/>
+            <child link="${name}"/>
+        </joint>
+    </xacro:macro>
+</robot>

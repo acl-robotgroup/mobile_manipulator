@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+    <name>mobile_manipulator_gazebo_sim</name>
+    <version>0.0.1</version>
+    <description>Mobile manipulator gazebo simulation</description>
+    <maintainer email="r13921006@ntu.edu.tw">Jack Lo</maintainer>
+    <license>TODO</license>
+    <author email="r13921006@ntu.edu.tw">Jack Lo</author>
+
+    <!-- build dependencies -->
+    <buildtool_depend>ament_cmake</buildtool_depend>
+
+    <!-- execution dependencies -->
+    <exec_depend>gz_ros2_control</exec_depend>
+    <exec_depend>ros_gz</exec_depend>
+    <exec_depend>ros2_control</exec_depend>
+    <exec_depend>ros2_controllers</exec_depend>
+
+    <exec_depend>mobile_manipulator_bringup</exec_depend>
+    <exec_depend>mobile_manipulator_description</exec_depend>
+
+    <exec_depend>tracer_gazebo_sim</exec_depend>
+
+    <export>
+        <build_type>ament_cmake</build_type>
+    </export>
+</package>

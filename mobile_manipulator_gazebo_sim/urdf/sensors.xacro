@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <gazebo>
+        <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+            <render_engine>ogre2</render_engine>
+        </plugin>
+    </gazebo>
+
+    <xacro:macro name="lidar" params="target">
+        <!-- rplidar s3 -->
+        <xacro:property name="update_rate" value="10"/>
+        <xacro:property name="samples_per_update" value="3200"/>
+        <xacro:property name="range_min" value="0.05"/>
+        <xacro:property name="range_max" value="40.0"/>
+        <xacro:property name="accuracy" value="0.03"/>
+        <xacro:property name="resolution" value="0.01"/>
+
+        <gazebo reference="${target}">
+            <sensor name="${target}_sensor" type="gpu_lidar">
+                <pose relative_to="${target}">0 0 0 0 0 0</pose>
+
+                <topic>${target}/scan</topic>
+                <update_rate>${update_rate}</update_rate>
+
+                <lidar>
+                    <scan>
+                        <horizontal>
+                            <samples>${samples_per_update}</samples>
+                            <resolution>1</resolution>
+                            <min_angle>${radians(-180)}</min_angle>
+                            <max_angle>${radians(180)}</max_angle>
+                        </horizontal>
+                    </scan>
+                    <range>
+                        <min>${range_min}</min>
+                        <max>${range_max}</max>
+                        <resolution>${resolution}</resolution>
+                    </range>
+                    <noise>
+                        <type>gaussian</type>
+                        <mean>0.0</mean>
+                        <stddev>${accuracy}</stddev>
+                    </noise>
+                </lidar>
+
+                <always_on>true</always_on>
+                <visualize>true</visualize>
+            </sensor>
+        </gazebo>
+    </xacro:macro>
+</robot>

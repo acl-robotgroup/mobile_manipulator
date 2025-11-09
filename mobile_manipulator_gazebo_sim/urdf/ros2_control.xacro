@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <gazebo>
+        <plugin filename="gz_ros2_control-system"
+            name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+            <ros>
+                <namespace>$(arg namespace)</namespace>
+            </ros>
+            <parameters>$(find mobile_manipulator_gazebo_sim)/config/controllers.yaml</parameters>
+        </plugin>
+    </gazebo>
+
+    <xacro:macro name="ros2_control" params="**joints">
+        <ros2_control name="GazeboSimSystem" type="system">
+            <hardware>
+                <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+            </hardware>
+            <xacro:insert_block name="joints"/>
+        </ros2_control>
+    </xacro:macro>
+</robot>

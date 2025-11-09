@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:macro name="extrusion" params="name parent density width height length *joint_pose">
+        <xacro:property name="mass" value="${density * length}"/>
+
+        <link name="${name}">
+            <inertial>
+                <origin xyz="0 0 ${length / 2}" rpy="0 0 0"/>
+                <mass value="${mass}"/>
+                <inertia
+                    ixx="${mass * (height ** 2 + length ** 2) / 12}" ixy="0" ixz="0"
+                    iyy="${mass * (width ** 2 + length ** 2) / 12}" iyz="0"
+                    izz="${mass * (width ** 2 + height ** 2) / 12}"
+                />
+            </inertial>
+            <visual>
+                <origin xyz="0 0 ${length / 2}" rpy="0 0 0"/>
+                <geometry>
+                    <box size="${width} ${height} ${length}"/>
+                </geometry>
+                <material name="Gray">
+                    <color rgba="0.75 0.75 0.75 1.0"/>
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 ${length / 2}" rpy="0 0 0"/>
+                <geometry>
+                    <box size="${width} ${height} ${length}"/>
+                </geometry>
+            </collision>
+        </link>
+
+        <joint name="${name}_joint" type="fixed">
+            <xacro:insert_block name="joint_pose"/>
+            <parent link="${parent}"/>
+            <child link="${name}"/>
+        </joint>
+    </xacro:macro>
+
+    <xacro:macro name="HFS8-4040" params="name parent length *joint_pose">
+        <xacro:extrusion name="${name}" parent="${parent}" density="1.73" width="0.04" height="0.04"
+            length="${length}">
+            <xacro:insert_block name="joint_pose"/>
+        </xacro:extrusion>
+    </xacro:macro>
+
+    <xacro:macro name="HFS8-2040" params="name parent length *joint_pose">
+        <xacro:extrusion name="${name}" parent="${parent}" density="1.12" width="0.04" height="0.02"
+            length="${length}">
+            <xacro:insert_block name="joint_pose"/>
+        </xacro:extrusion>
+    </xacro:macro>
+
+    <xacro:macro name="HFS6-3030" params="name parent length *joint_pose">
+        <xacro:extrusion name="${name}" parent="${parent}" density="0.9" width="0.03" height="0.03"
+            length="${length}">
+            <xacro:insert_block name="joint_pose"/>
+        </xacro:extrusion>
+    </xacro:macro>
+
+    <xacro:macro name="HFS5-2020" params="name parent length *joint_pose">
+        <xacro:extrusion name="${name}" parent="${parent}" density="0.5" width="0.02" height="0.02"
+            length="${length}">
+            <xacro:insert_block name="joint_pose"/>
+        </xacro:extrusion>
+    </xacro:macro>
+
+    <xacro:macro name="acrylic_plate" params="name parent width height thickness *joint_pose">
+        <xacro:property name="mass" value="${1180 * width * height * thickness}"/>
+
+        <link name="${name}">
+            <inertial>
+                <origin xyz="0 0 ${thickness / 2}" rpy="0 0 0"/>
+                <mass value="${mass}"/>
+                <inertia
+                    ixx="${mass * (height ** 2 + thickness ** 2) / 12}" ixy="0" ixz="0"
+                    iyy="${mass * (width ** 2 + thickness ** 2) / 12}" iyz="0"
+                    izz="${mass * (width ** 2 + height ** 2) / 12}"
+                />
+            </inertial>
+            <visual>
+                <origin xyz="0 0 ${thickness / 2}" rpy="0 0 0"/>
+                <geometry>
+                    <box size="${width} ${height} ${thickness}"/>
+                </geometry>
+                <material name="Translucent">
+                    <color rgba="1 1 1 0.6"/>
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 ${thickness / 2}" rpy="0 0 0"/>
+                <geometry>
+                    <box size="${width} ${height} ${thickness}"/>
+                </geometry>
+            </collision>
+        </link>
+
+        <joint name="${name}_joint" type="fixed">
+            <xacro:insert_block name="joint_pose"/>
+            <parent link="${parent}"/>
+            <child link="${name}"/>
+        </joint>
+    </xacro:macro>
+</robot>

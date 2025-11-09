@@ -1,0 +1,39 @@
+repositories:
+  base/ugv_gazebo_sim:
+    type: git
+    url: https://github.com/agilexrobotics/ugv_gazebo_sim.git
+    version: humble
+  base/ugv_sdk:
+    type: git
+    url: https://github.com/agilexrobotics/ugv_sdk.git
+    version: main
+  base/tracer_ros2:
+    type: git
+    url: https://github.com/agilexrobotics/tracer_ros2.git
+    version: jazzy
+
+  arm/piper_ros:
+    type: git
+    url: https://github.com/agilexrobotics/piper_ros.git
+    version: humble
+  arm/warehouse_ros_mongo: # does not support jazzy
+    type: git
+    url: https://github.com/moveit/warehouse_ros_mongo.git
+    version: ros2
+
+  sensors/librealsense:
+    type: git
+    url: https://github.com/IntelRealSense/librealsense.git
+    version: v2.56.5
+  sensors/realsense-ros:
+    type: git
+    url: https://github.com/IntelRealSense/realsense-ros.git
+    version: 4.56.4
+  sensors/OrbbecSDK_ROS2:
+    type: git
+    url: https://github.com/orbbec/OrbbecSDK_ROS2.git
+    version: v2.5.4
+  sensors/sllidar_ros2:
+    type: git
+    url: https://github.com/Slamtec/sllidar_ros2.git
+    version: main

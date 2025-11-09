@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:arg name="namespace" default="/"/>
+    <xacro:arg name="extra_xacro" default="$(find mobile_manipulator_description)/urdf/empty.xacro"/>
+
+    <xacro:arg name="robot_namespace" default="$(arg namespace)"/>
+    <xacro:include filename="$(find tracer_description)/urdf/tracer_v1.xacro"/>
+
+    <xacro:include filename="$(find mobile_manipulator_description)/urdf/frame.xacro"/>
+    <xacro:include filename="$(find mobile_manipulator_description)/urdf/sensors.xacro"/>
+
+    <xacro:frame name="$(arg namespace)frame" parent="base_link">
+        <origin xyz="0 0 0.016" rpy="0 0 0"/>
+    </xacro:frame>
+
+    <xacro:lidar name="$(arg namespace)front_lidar" parent="$(arg namespace)frame_lower_plate">
+        <origin xyz="0.144 0 0" rpy="${radians(180)} 0 0"/>
+    </xacro:lidar>
+    <xacro:lidar name="$(arg namespace)rear_lidar" parent="$(arg namespace)frame_lower_plate">
+        <origin xyz="-0.144 0 0" rpy="${radians(180)} 0 0"/>
+    </xacro:lidar>
+
+    <!-- additional definitions -->
+    <xacro:include filename="$(arg extra_xacro)"/>
+</robot>
