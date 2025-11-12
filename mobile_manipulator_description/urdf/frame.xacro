@@ -2,117 +2,117 @@
 <robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
     <xacro:include filename="$(find mobile_manipulator_description)/urdf/parts.xacro"/>
 
-    <xacro:macro name="frame" params="name parent *joint_pose">
-        <link name="${name}"/>
-        <joint name="${name}_joint" type="fixed">
+    <xacro:macro name="frame" params="prefix parent *joint_pose">
+        <link name="${prefix}frame"/>
+        <joint name="${prefix}frame_joint" type="fixed">
             <xacro:insert_block name="joint_pose"/>
             <parent link="${parent}"/>
-            <child link="${name}"/>
+            <child link="${prefix}frame"/>
         </joint>
 
         <!-- lower layer -->
-        <xacro:HFS8-4040 name="${name}_lower_pillar_fl" parent="${name}" length="0.15">
+        <xacro:HFS8-4040 name="${prefix}lower_pillar_fl" parent="${prefix}frame" length="0.15">
             <origin xyz="0.155 0.115 0" rpy="0 0 0"/>
         </xacro:HFS8-4040>
-        <xacro:HFS8-4040 name="${name}_lower_pillar_fr" parent="${name}" length="0.15">
+        <xacro:HFS8-4040 name="${prefix}lower_pillar_fr" parent="${prefix}frame" length="0.15">
             <origin xyz="0.155 -0.115 0" rpy="0 0 0"/>
         </xacro:HFS8-4040>
-        <xacro:HFS8-4040 name="${name}_lower_pillar_rl" parent="${name}" length="0.15">
+        <xacro:HFS8-4040 name="${prefix}lower_pillar_rl" parent="${prefix}frame" length="0.15">
             <origin xyz="-0.155 0.115 0" rpy="0 0 0"/>
         </xacro:HFS8-4040>
-        <xacro:HFS8-4040 name="${name}_lower_pillar_rr" parent="${name}" length="0.15">
+        <xacro:HFS8-4040 name="${prefix}lower_pillar_rr" parent="${prefix}frame" length="0.15">
             <origin xyz="-0.155 -0.115 0" rpy="0 0 0"/>
         </xacro:HFS8-4040>
 
-        <xacro:acrylic_plate name="${name}_lower_plate" parent="${name}" width="0.35"
+        <xacro:acrylic_plate name="${prefix}lower_plate" parent="${prefix}frame" width="0.35"
             height="0.27" thickness="0.008">
             <origin xyz="0 0 0.15" rpy="0 0 0"/>
         </xacro:acrylic_plate>
 
         <!-- middle layer -->
-        <xacro:HFS8-4040 name="${name}_middle_pillar_fl" parent="${name}_lower_plate" length="0.3">
+        <xacro:HFS8-4040 name="${prefix}middle_pillar_fl" parent="${prefix}lower_plate" length="0.3">
             <origin xyz="0.155 0.115 0.008" rpy="0 0 0"/>
         </xacro:HFS8-4040>
-        <xacro:HFS8-4040 name="${name}_middle_pillar_fr" parent="${name}_lower_plate" length="0.3">
+        <xacro:HFS8-4040 name="${prefix}middle_pillar_fr" parent="${prefix}lower_plate" length="0.3">
             <origin xyz="0.155 -0.115 0.008" rpy="0 0 0"/>
         </xacro:HFS8-4040>
-        <xacro:HFS8-4040 name="${name}_middle_pillar_rl" parent="${name}_lower_plate" length="0.3">
+        <xacro:HFS8-4040 name="${prefix}middle_pillar_rl" parent="${prefix}lower_plate" length="0.3">
             <origin xyz="-0.155 0.115 0.008" rpy="0 0 0"/>
         </xacro:HFS8-4040>
-        <xacro:HFS8-4040 name="${name}_middle_pillar_rr" parent="${name}_lower_plate" length="0.3">
+        <xacro:HFS8-4040 name="${prefix}middle_pillar_rr" parent="${prefix}lower_plate" length="0.3">
             <origin xyz="-0.155 -0.115 0.008" rpy="0 0 0"/>
         </xacro:HFS8-4040>
 
-        <xacro:acrylic_plate name="${name}_middle_plate" parent="${name}_lower_plate" width="0.35"
+        <xacro:acrylic_plate name="${prefix}middle_plate" parent="${prefix}lower_plate" width="0.35"
             height="0.27" thickness="0.008">
             <origin xyz="0 0 0.308" rpy="0 0 0"/>
         </xacro:acrylic_plate>
 
         <!-- upper layer -->
-        <xacro:HFS8-4040 name="${name}_upper_pillar_fl" parent="${name}_middle_plate" length="0.2">
+        <xacro:HFS8-4040 name="${prefix}upper_pillar_fl" parent="${prefix}middle_plate" length="0.2">
             <origin xyz="0.155 0.115 0.008" rpy="0 0 0"/>
         </xacro:HFS8-4040>
-        <xacro:HFS8-4040 name="${name}_upper_pillar_fr" parent="${name}_middle_plate" length="0.2">
+        <xacro:HFS8-4040 name="${prefix}upper_pillar_fr" parent="${prefix}middle_plate" length="0.2">
             <origin xyz="0.155 -0.115 0.008" rpy="0 0 0"/>
         </xacro:HFS8-4040>
-        <xacro:HFS8-4040 name="${name}_upper_pillar_rl" parent="${name}_middle_plate" length="0.2">
+        <xacro:HFS8-4040 name="${prefix}upper_pillar_rl" parent="${prefix}middle_plate" length="0.2">
             <origin xyz="-0.155 0.115 0.008" rpy="0 0 0"/>
         </xacro:HFS8-4040>
-        <xacro:HFS8-4040 name="${name}_upper_pillar_rr" parent="${name}_middle_plate" length="0.2">
+        <xacro:HFS8-4040 name="${prefix}upper_pillar_rr" parent="${prefix}middle_plate" length="0.2">
             <origin xyz="-0.155 -0.115 0.008" rpy="0 0 0"/>
         </xacro:HFS8-4040>
 
-        <xacro:HFS8-4040 name="${name}_left_beam" parent="${name}_upper_pillar_rl" length="0.6">
+        <xacro:HFS8-4040 name="${prefix}beam_left" parent="${prefix}upper_pillar_rl" length="0.6">
             <origin xyz="-0.02 0 0.22" rpy="0 ${radians(90)} 0"/>
         </xacro:HFS8-4040>
-        <xacro:HFS8-4040 name="${name}_right_beam" parent="${name}_upper_pillar_rr" length="0.6">
+        <xacro:HFS8-4040 name="${prefix}beam_right" parent="${prefix}upper_pillar_rr" length="0.6">
             <origin xyz="-0.02 0 0.22" rpy="0 ${radians(90)} 0"/>
         </xacro:HFS8-4040>
 
-        <xacro:HFS8-2040 name="${name}_beam_fl" parent="${name}_upper_pillar_fl" length="0.15">
+        <xacro:HFS8-2040 name="${prefix}beam_fl" parent="${prefix}upper_pillar_fl" length="0.15">
             <origin xyz="0 0.02 0.23" rpy="${radians(-90)} 0 0"/>
         </xacro:HFS8-2040>
-        <xacro:HFS8-4040 name="${name}_beam_fm" parent="${name}_upper_pillar_fl" length="0.19">
+        <xacro:HFS8-4040 name="${prefix}beam_fm" parent="${prefix}upper_pillar_fl" length="0.19">
             <origin xyz="0 -0.02 0.22" rpy="${radians(90)} 0 0"/>
         </xacro:HFS8-4040>
-        <xacro:HFS8-2040 name="${name}_beam_fr" parent="${name}_upper_pillar_fr" length="0.15">
+        <xacro:HFS8-2040 name="${prefix}beam_fr" parent="${prefix}upper_pillar_fr" length="0.15">
             <origin xyz="0 -0.02 0.23" rpy="${radians(90)} 0 0"/>
         </xacro:HFS8-2040>
 
-        <xacro:HFS8-2040 name="${name}_beam_rl" parent="${name}_upper_pillar_rl" length="0.15">
+        <xacro:HFS8-2040 name="${prefix}beam_rl" parent="${prefix}upper_pillar_rl" length="0.15">
             <origin xyz="0 0.02 0.23" rpy="${radians(-90)} 0 0"/>
         </xacro:HFS8-2040>
-        <xacro:HFS8-4040 name="${name}_beam_rm" parent="${name}_upper_pillar_rl" length="0.19">
+        <xacro:HFS8-4040 name="${prefix}beam_rm" parent="${prefix}upper_pillar_rl" length="0.19">
             <origin xyz="0 -0.02 0.22" rpy="${radians(90)} 0 0"/>
         </xacro:HFS8-4040>
-        <xacro:HFS8-2040 name="${name}_beam_rr" parent="${name}_upper_pillar_rr" length="0.15">
+        <xacro:HFS8-2040 name="${prefix}beam_rr" parent="${prefix}upper_pillar_rr" length="0.15">
             <origin xyz="0 -0.02 0.23" rpy="${radians(90)} 0 0"/>
         </xacro:HFS8-2040>
 
-        <xacro:HFS5-2020 name="${name}_left_subbeam" parent="${name}_beam_rl" length="0.27">
+        <xacro:HFS5-2020 name="${prefix}subbeam_left" parent="${prefix}beam_rl" length="0.27">
             <origin xyz="0.02 0 0.14" rpy="${radians(90)} 0 ${radians(90)}"/>
         </xacro:HFS5-2020>
-        <xacro:HFS5-2020 name="${name}_right_subbeam" parent="${name}_beam_rr" length="0.27">
+        <xacro:HFS5-2020 name="${prefix}subbeam_right" parent="${prefix}beam_rr" length="0.27">
             <origin xyz="0.02 0 0.14" rpy="${radians(-90)} 0 ${radians(-90)}"/>
         </xacro:HFS5-2020>
 
-        <xacro:acrylic_plate name="${name}_upper_plate" parent="${name}_middle_plate" width="0.57"
+        <xacro:acrylic_plate name="${prefix}upper_plate" parent="${prefix}middle_plate" width="0.57"
             height="0.27" thickness="0.008">
             <origin xyz="0.14 0 0.248" rpy="0 0 0"/>
         </xacro:acrylic_plate>
 
         <!-- top hook -->
-        <xacro:HFS6-3030 name="${name}_top_pillar_left" parent="${name}_left_beam" length="0.6">
+        <xacro:HFS6-3030 name="${prefix}top_pillar_left" parent="${prefix}beam_left" length="0.6">
             <origin xyz="-0.02 0 0.015" rpy="0 ${radians(-90)} 0"/>
         </xacro:HFS6-3030>
-        <xacro:HFS6-3030 name="${name}_top_pillar_right" parent="${name}_right_beam" length="0.6">
+        <xacro:HFS6-3030 name="${prefix}top_pillar_right" parent="${prefix}beam_right" length="0.6">
             <origin xyz="-0.02 0 0.015" rpy="0 ${radians(-90)} 0"/>
         </xacro:HFS6-3030>
 
-        <xacro:HFS6-3030 name="${name}_top_beam" parent="${name}_top_pillar_left" length="0.26">
+        <xacro:HFS6-3030 name="${prefix}top_beam" parent="${prefix}top_pillar_left" length="0.26">
             <origin xyz="0 0.015 0.615" rpy="${radians(90)} 0 0"/>
         </xacro:HFS6-3030>
-        <xacro:HFS5-2020 name="${name}_top_subbeam" parent="${name}_top_pillar_left" length="0.2">
+        <xacro:HFS5-2020 name="${prefix}top_subbeam" parent="${prefix}top_pillar_left" length="0.2">
             <origin xyz="0 -0.015 0.455" rpy="${radians(90)} 0 0"/>
         </xacro:HFS5-2020>
     </xacro:macro>
