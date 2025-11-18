@@ -12,11 +12,12 @@ def generate_launch_description():
     arguments.append(
         DeclareLaunchArgument(
             "world",
-            default_value=PathJoinSubstitution([
-                FindPackageShare("mobile_manipulator_gazebo_sim"),
-                "worlds",
-                "depo.sdf",
-            ]),
+            # default_value=PathJoinSubstitution([
+            #     FindPackageShare("mobile_manipulator_gazebo_sim"),
+            #     "worlds",
+            #     "depo.sdf",
+            # ]),
+            default_value="empty.sdf",
             description="World file to load",
         ))
 
