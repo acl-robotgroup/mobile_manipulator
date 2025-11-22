@@ -7,7 +7,7 @@ Visualization Manager:
   Class: ""
   Name: root
   Global Options:
-    Fixed Frame: base_link
+    Fixed Frame: base_footprint
     Frame Rate: 30
   Displays:
     - Class: rviz_default_plugins/Grid

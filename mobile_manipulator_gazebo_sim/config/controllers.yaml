@@ -11,24 +11,24 @@
   ros__parameters:
     # publish default joint states for passive joints
     extra_joints:
-      - fl_castor_wheel
-      - fr_castor_wheel
-      - rr_castor_wheel
-      - rl_castor_wheel
-      - fl_wheel
-      - fr_wheel
-      - rr_wheel
-      - rl_wheel
+      - castor_wheel_fl_link_joint
+      - castor_wheel_fr_link_joint
+      - castor_wheel_rl_link_joint
+      - castor_wheel_rr_link_joint
+      - castor_wheel_fl_joint
+      - castor_wheel_fr_joint
+      - castor_wheel_rl_joint
+      - castor_wheel_rr_joint
 
 /**/diff_drive_base_controller:
   ros__parameters:
-    left_wheel_names: ["left_wheel"]
-    right_wheel_names: ["right_wheel"]
+    left_wheel_names: [wheel_left_joint]
+    right_wheel_names: [wheel_right_joint]
 
     wheel_separation: 0.36
     wheel_radius: 0.06
 
     publish_rate: 100.0
     enable_odom_tf: true
-    odom_frame_id: "odom"
-    base_frame_id: "base_link"
+    odom_frame_id: odom
+    base_frame_id: base_footprint

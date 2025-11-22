@@ -17,35 +17,38 @@
 
         <xacro:piper prefix="${prefix}piper_"/>
         <joint name="${prefix}piper_joint" type="fixed">
-            <origin xyz="0.23 0 0.008" rpy="0 0 0"/>
-            <parent link="${prefix}upper_plate"/>
+            <origin xyz="0.37 0 0.714" rpy="0 0 0"/>
+            <parent link="${prefix}frame"/>
             <child link="${prefix}piper_base_link"/>
         </joint>
 
-        <xacro:lidar name="${prefix}lidar_front" parent="${prefix}lower_plate">
-            <origin xyz="0.144 0 0" rpy="${radians(180)} 0 0"/>
+        <xacro:lidar name="${prefix}lidar_front" parent="${prefix}frame">
+            <origin xyz="0.144 0 0.15" rpy="${radians(180)} 0 ${radians(180)}"/>
         </xacro:lidar>
-        <xacro:lidar name="${prefix}lidar_rear" parent="${prefix}lower_plate">
-            <origin xyz="-0.144 0 0" rpy="${radians(180)} 0 0"/>
+        <xacro:lidar name="${prefix}lidar_rear" parent="${prefix}frame">
+            <origin xyz="-0.144 0 0.15" rpy="${radians(180)} 0 0"/>
         </xacro:lidar>
 
-        <xacro:femto_bolt prefix="${prefix}camera_front" parent="${prefix}top_beam">
-            <origin xyz="0 0.015 0.13" rpy="${radians(-90)} 0 0"/>
+        <xacro:gemini2 name="${prefix}camera_front" parent="${prefix}frame">
+            <origin xyz="0.155 0 0.453" rpy="${radians(180)} 0 0"/>
+        </xacro:gemini2>
+        <xacro:gemini2 name="${prefix}camera_left" parent="${prefix}frame">
+            <origin xyz="0 0.115 0.453" rpy="${radians(180)} 0 ${radians(90)}"/>
+        </xacro:gemini2>
+        <xacro:gemini2 name="${prefix}camera_right" parent="${prefix}frame">
+            <origin xyz="0 -0.115 0.453" rpy="${radians(180)} 0 ${radians(-90)}"/>
+        </xacro:gemini2>
+
+        <xacro:femto_bolt prefix="${prefix}camera_top" parent="${prefix}frame">
+            <origin xyz="-0.16 0 1.336" rpy="0 0 0"/>
         </xacro:femto_bolt>
-
-        <xacro:gemini2 name="${prefix}camera_left" parent="${prefix}middle_plate">
-            <origin xyz="0 0.115 -0.031" rpy="0 0 ${radians(90)}"/>
-        </xacro:gemini2>
-        <xacro:gemini2 name="${prefix}camera_right" parent="${prefix}middle_plate">
-            <origin xyz="0 -0.115 -0.031" rpy="0 0 ${radians(-90)}"/>
-        </xacro:gemini2>
-        <xacro:gemini2 name="${prefix}camera_rear" parent="${prefix}middle_plate">
-            <origin xyz="-0.155 0 -0.031" rpy="0 0 ${radians(180)}"/>
-        </xacro:gemini2>
     </xacro:macro>
 
     <xacro:if value="$(arg instantiate)">
-        <xacro:mobile_manipulator prefix="$(arg namespace)"/>
+        <xacro:property name="ns" value="${'$(arg namespace)' != '' and '$(arg namespace)'.rstrip('/') or ''}"/>
+        <xacro:property name="prefix" value="${ns != '' and ns + '/' or ''}"/>
+
+        <xacro:mobile_manipulator prefix="${prefix}"/>
 
         <!-- additional definitions -->
         <xacro:include filename="$(arg extra_xacro)"/>

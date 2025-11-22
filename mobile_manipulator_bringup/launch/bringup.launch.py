@@ -1,14 +1,21 @@
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.actions import DeclareLaunchArgument, GroupAction, IncludeLaunchDescription, TimerAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
-from launch_ros.actions import Node
+from launch_ros.actions import Node, PushROSNamespace
 from launch_ros.substitutions import FindPackageShare
 
 
 def generate_launch_description():
     # arguments
     arguments = []
+
+    # initialize substitutions
+    sensors_config = PathJoinSubstitution([
+        FindPackageShare("mobile_manipulator_bringup"),
+        "config",
+        "sensors.yaml",
+    ])
 
     # includes
     includes = []
@@ -23,19 +30,107 @@ def generate_launch_description():
             ]),
             launch_arguments={}.items(),
         ))
+    # includes.append(
+    #     IncludeLaunchDescription(
+    #         PythonLaunchDescriptionSource([
+    #             PathJoinSubstitution([
+    #                 FindPackageShare("tracer_ros2"),
+    #                 "launch",
+    #                 "tracer_base.launch.py",
+    #             ]),
+    #         ]),
+    #         launch_arguments={
+    #             "port_name": "can2",
+    #         }.items(),
+    #     ))
+
     includes.append(
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource([
                 PathJoinSubstitution([
-                    FindPackageShare("tracer_ros2"),
+                    FindPackageShare("orbbec_camera"),
                     "launch",
-                    "tracer_base.launch.py",
+                    "gemini2.launch.py",
                 ]),
             ]),
-            launch_arguments={}.items(),
+            launch_arguments={
+                "camera_name": "camera_front",
+                "serial_number": "AY3794300RP",
+            }.items(),
         ))
+
+    camera_left = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([
+            PathJoinSubstitution([
+                FindPackageShare("orbbec_camera"),
+                "launch",
+                "gemini2.launch.py",
+            ]),
+        ]),
+        launch_arguments={
+            "camera_name": "camera_left",
+            "serial_number": "AY3794301EW",
+        }.items(),
+    )
+    includes.append(TimerAction(
+        period=5.0,
+        actions=[camera_left],
+    ))
+
+    camera_right = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([
+            PathJoinSubstitution([
+                FindPackageShare("orbbec_camera"),
+                "launch",
+                "gemini2.launch.py",
+            ]),
+        ]),
+        launch_arguments={
+            "camera_name": "camera_right",
+            "serial_number": "AY37943017E",
+        }.items(),
+    )
+    includes.append(TimerAction(
+        period=10.0,
+        actions=[camera_right],
+    ))
+
+    camera_front = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([
+            PathJoinSubstitution([
+                FindPackageShare("orbbec_camera"),
+                "launch",
+                "femto_bolt.launch.py",
+            ]),
+        ]),
+        launch_arguments={
+            "camera_name": "camera_top",
+            "serial_number": "CL8T754005T",
+        }.items(),
+    )
+    includes.append(TimerAction(
+        period=15.0,
+        actions=[camera_front],
+    ))
 
     # nodes
     nodes = []
+    
+    # the topic names of sllidar_node do not consider the node's name, hence
+    # namespace is necessary
+    nodes.append(
+        Node(
+            package="sllidar_ros2",
+            executable="sllidar_node",
+            namespace="lidar_front",
+            parameters=[sensors_config],
+        ))
+    nodes.append(
+        Node(
+            package="sllidar_ros2",
+            executable="sllidar_node",
+            namespace="lidar_rear",
+            parameters=[sensors_config],
+        ))
 
     return LaunchDescription(arguments + includes + nodes)

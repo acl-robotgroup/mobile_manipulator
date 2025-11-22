@@ -20,8 +20,6 @@
     <exec_depend>mobile_manipulator_bringup</exec_depend>
     <exec_depend>mobile_manipulator_description</exec_depend>
 
-    <exec_depend>tracer_gazebo_sim</exec_depend>
-
     <export>
         <build_type>ament_cmake</build_type>
     </export>

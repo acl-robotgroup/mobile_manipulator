@@ -3,9 +3,12 @@
     <xacro:include filename="$(find mobile_manipulator_gazebo_sim)/urdf/ros2_control.xacro"/>
     <xacro:include filename="$(find mobile_manipulator_gazebo_sim)/urdf/sensors.xacro"/>
 
+    <xacro:property name="ns" value="${'$(arg namespace)' != '' and '$(arg namespace)'.rstrip('/') or ''}"/>
+    <xacro:property name="prefix" value="${ns != '' and ns + '/' or ''}"/>
+
     <xacro:ros2_control>
         <joints>
-            <joint name="left_wheel">
+            <joint name="${prefix}wheel_left_joint">
                 <command_interface name="velocity">
                     <param name="min">-1</param>
                     <param name="max">1</param>
@@ -13,7 +16,7 @@
                 <state_interface name="position"/>
                 <state_interface name="velocity"/>
             </joint>
-            <joint name="right_wheel">
+            <joint name="${prefix}wheel_right_joint">
                 <command_interface name="velocity">
                     <param name="min">-1</param>
                     <param name="max">1</param>
@@ -24,6 +27,6 @@
         </joints>
     </xacro:ros2_control>
 
-    <xacro:lidar target="$(arg namespace)front_lidar"/>
-    <xacro:lidar target="$(arg namespace)rear_lidar"/>
+    <xacro:lidar target="${prefix}lidar_front"/>
+    <xacro:lidar target="${prefix}lidar_rear"/>
 </robot>
