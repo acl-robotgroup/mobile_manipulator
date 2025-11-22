@@ -3,12 +3,13 @@
     <xacro:include
         filename="$(find mobile_manipulator_description)/urdf/external/wheels.xacro"/>
 
-    <xacro:property name="base_x_size" value="0.6200000"/>
-    <xacro:property name="base_y_size" value="0.585000"/>
-    <xacro:property name="base_z_size" value="0.235000"/>
+    <xacro:property name="base_x_size" value="0.685"/>
+    <xacro:property name="base_y_size" value="0.570"/>
+    <xacro:property name="base_z_size" value="0.143"/>
 
     <xacro:property name="wheelbase" value="0.34"/>
     <xacro:property name="track" value="0.37910"/>
+    <xacro:property name="wheel_radius" value="0.06"/>
 
     <xacro:property name="castor_length" value="0.002"/>
     <xacro:property name="castor_radius" value="0.03724"/>
@@ -17,6 +18,14 @@
     <xacro:property name="castor_offset" value="0.03"/>
 
     <xacro:macro name="tracer" params="prefix">
+        <link name="${prefix}base_footprint"/>
+
+        <joint name="${prefix}base_link_joint" type="fixed">
+            <origin xyz="0 0 ${base_z_size}" rpy="0 0 0"/>
+            <parent link="${prefix}base_footprint"/>
+            <child link="${prefix}base_link"/>
+        </joint>
+
         <link name="${prefix}base_link">
             <visual>
                 <origin xyz="0 0 0" rpy="1.57 0 0"/>
@@ -34,6 +43,12 @@
             </collision>
         </link>
 
+        <joint name="${prefix}inertial_link_joint" type="fixed">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <parent link="${prefix}base_link"/>
+            <child link="${prefix}inertial_link"/>
+        </joint>
+
         <link name="${prefix}inertial_link">
             <inertial>
                 <origin xyz="0.015 0.0231316650320557 0"/>
@@ -46,12 +61,6 @@
                     izz="0.223868521722778"/>
             </inertial>
         </link>
-
-        <joint name="${prefix}inertial_link_joint" type="fixed">
-            <origin xyz="0 0 0" rpy="0 0 0"/>
-            <parent link="${prefix}base_link"/>
-            <child link="${prefix}inertial_link"/>
-        </joint>
 
         <xacro:wheel name="${prefix}wheel_left" parent="${prefix}base_link">
             <origin xyz="0 ${wheelbase/2} ${wheel_vertical_offset}" rpy="0 0 0"/>

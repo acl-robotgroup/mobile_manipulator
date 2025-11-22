@@ -13,6 +13,7 @@ import xacro
 
 
 def _create_robot_state_publisher(context: LaunchContext):
+    namespace = context.launch_configurations.get("ros_namespace", "")
     xacro_args = LaunchConfiguration("xacro_args")
     use_sim_time = LaunchConfiguration("use_sim_time")
 
@@ -24,7 +25,7 @@ def _create_robot_state_publisher(context: LaunchContext):
 
     xacro_args_str = xacro_args.perform(context)
 
-    mappings = {}
+    mappings = {"namespace": namespace}
     if xacro_args_str:
         try:
             tokens = shlex.split(xacro_args_str)

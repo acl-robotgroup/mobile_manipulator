@@ -25,7 +25,7 @@ def generate_launch_description():
     arguments.append(
         DeclareLaunchArgument(
             "z",
-            default_value="0.5",
+            default_value="0.0",
             description="Z coordinate to spawn the robot at",
         ))
     arguments.append(

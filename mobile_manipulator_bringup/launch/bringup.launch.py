@@ -1,5 +1,5 @@
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, GroupAction, IncludeLaunchDescription, RegisterEventHandler, TimerAction
+from launch.actions import DeclareLaunchArgument, GroupAction, IncludeLaunchDescription, TimerAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node, PushROSNamespace
@@ -9,6 +9,13 @@ from launch_ros.substitutions import FindPackageShare
 def generate_launch_description():
     # arguments
     arguments = []
+
+    # initialize substitutions
+    sensors_config = PathJoinSubstitution([
+        FindPackageShare("mobile_manipulator_bringup"),
+        "config",
+        "sensors.yaml",
+    ])
 
     # includes
     includes = []
@@ -70,26 +77,8 @@ def generate_launch_description():
                 }.items(),
             ),
         ]))
-    camera_front = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([
-            PathJoinSubstitution([
-                FindPackageShare("orbbec_camera"),
-                "launch",
-                "femto_bolt.launch.py",
-            ]),
-        ]),
-        launch_arguments={
-            "camera_name": "camera_front",
-            "serial_number": "CL8T754005T",
-            "device_num": "4",
-        }.items(),
-    )
-    includes.append(TimerAction(
-        period=20.0,
-        actions=[camera_front],
-    ))
 
-    camera_front_lower = IncludeLaunchDescription(
+    camera_front = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([
             PathJoinSubstitution([
                 FindPackageShare("orbbec_camera"),
@@ -98,14 +87,14 @@ def generate_launch_description():
             ]),
         ]),
         launch_arguments={
-            "camera_name": "camera_front_lower",
+            "camera_name": "camera_front",
             "serial_number": "AY3794300RP",
             "device_num": "4",
         }.items(),
     )
     includes.append(TimerAction(
         period=5.0,
-        actions=[camera_front_lower],
+        actions=[camera_front],
     ))
 
     camera_left = IncludeLaunchDescription(
@@ -146,7 +135,42 @@ def generate_launch_description():
         actions=[camera_right],
     ))
 
+    camera_top = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([
+            PathJoinSubstitution([
+                FindPackageShare("orbbec_camera"),
+                "launch",
+                "femto_bolt.launch.py",
+            ]),
+        ]),
+        launch_arguments={
+            "camera_name": "camera_top",
+            "serial_number": "CL8T754005T",
+        }.items(),
+    )
+    includes.append(TimerAction(
+        period=15.0,
+        actions=[camera_top],
+    ))
+
     # nodes
     nodes = []
+    
+    # the topic names of sllidar_node do not consider the node's name, hence
+    # namespace is necessary
+    nodes.append(
+        Node(
+            package="sllidar_ros2",
+            executable="sllidar_node",
+            namespace="lidar_front",
+            parameters=[sensors_config],
+        ))
+    nodes.append(
+        Node(
+            package="sllidar_ros2",
+            executable="sllidar_node",
+            namespace="lidar_rear",
+            parameters=[sensors_config],
+        ))
 
     return LaunchDescription(arguments + includes + nodes)

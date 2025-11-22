@@ -7,7 +7,7 @@ Visualization Manager:
   Class: ""
   Name: root
   Global Options:
-    Fixed Frame: base_link
+    Fixed Frame: odom
     Frame Rate: 30
   Displays:
     - Class: rviz_default_plugins/Grid
@@ -21,10 +21,46 @@ Visualization Manager:
       Value: true
     - Class: rviz_default_plugins/TF
       Name: TF
-      Show Names: false
-      Show Axes: false
-      Show Arrows: false
+      Filter (whitelist): odom|base_footprint
+      Show Names: true
+      Show Axes: true
+      Show Arrows: true
       Value: true
+    - Class: rviz_common/Group
+      Name: Sensors
+      Enabled: true
+      Displays:
+        - Class: rviz_default_plugins/Odometry
+          Name: Odometry
+          Topic: odom
+          Shape:
+            Axes Length: 1
+            Axes Radius: 0.1
+            Head Length: 0.1
+            Head Radius: 0.03
+            Shaft Length: 0.3
+            Shaft Radius: 0.015
+            Value: Arrow
+          Covariance:
+            Orientation:
+              Offset: 0.3
+            Position:
+              Alpha: 0.03
+          Value: true
+        - Class: rviz_default_plugins/LaserScan
+          Name: Lidar Front
+          Topic: lidar_front/scan
+          Color Transformer: FlatColor
+          Color: 255; 0; 0
+          Size (m): 0.02
+          Value: true
+        - Class: rviz_default_plugins/LaserScan
+          Name: Lidar Rear
+          Topic: lidar_rear/scan
+          Color Transformer: FlatColor
+          Color:  0; 0; 255
+          Size (m): 0.02
+          Value: true
   Tools:
     - Class: rviz_default_plugins/Interact
     - Class: rviz_default_plugins/MoveCamera
@@ -34,11 +70,11 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 2
+      Distance: 10
       Name: Current View
       Pitch: 0.52359877559
       Value: Orbit (rviz)
-      Yaw: 0.78539816339
+      Yaw: 3.14159265359
   Value: true
 Window Geometry:
   Height: 800
