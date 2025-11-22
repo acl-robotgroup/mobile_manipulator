@@ -14,9 +14,9 @@
                 </geometry>
             </visual>
             <collision>
-                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <origin xyz="0 0 0" rpy="${radians(90)} 0 0"/>
                 <geometry>
-                    <mesh filename="package://tracer_description/meshes/tracer_wheel.dae"/>
+                    <cylinder length="0.079" radius="${wheel_radius}"/>
                 </geometry>
             </collision>
         </link>
@@ -72,13 +72,14 @@
             <collision>
                 <origin xyz="0 0 0" rpy="0 0 0"/>
                 <geometry>
-                    <mesh filename="package://tracer_description/meshes/castor.dae"/>
+                    <!-- use sphere for better simulation behavior -->
+                    <sphere radius="${caster_radius}"/>
                 </geometry>
             </collision>
         </link>
 
         <joint name="${name}_joint" type="continuous">
-            <origin xyz="-0.0218084 ${-wheel_vertical_offset-0.0150} 0" rpy="0 0 0"/>
+            <origin xyz="-0.022 ${caster_offset-caster_link_offset} 0" rpy="0 0 0"/>
             <parent link="${name}_link"/>
             <child link="${name}"/>
             <axis xyz="0 0 1" rpy="0 0 0"/>

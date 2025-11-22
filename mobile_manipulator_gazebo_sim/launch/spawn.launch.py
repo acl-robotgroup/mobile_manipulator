@@ -25,7 +25,7 @@ def generate_launch_description():
     arguments.append(
         DeclareLaunchArgument(
             "z",
-            default_value="0.0",
+            default_value="0",
             description="Z coordinate to spawn the robot at",
         ))
     arguments.append(
@@ -94,7 +94,7 @@ def generate_launch_description():
         arguments=[
             "joint_state_broadcaster",
             "--switch-timeout",
-            "30",
+            "60",
         ],
     )
     diff_drive_base_controller_spawner = Node(
@@ -103,9 +103,11 @@ def generate_launch_description():
         arguments=[
             "diff_drive_base_controller",
             "--switch-timeout",
-            "30",
+            "60",
             "--controller-ros-args",
-            "-r /diff_drive_base_controller/cmd_vel:=/cmd_vel",
+            "-r diff_drive_base_controller/cmd_vel:=cmd_vel",
+            "--controller-ros-args",
+            "-r diff_drive_base_controller/odom:=odom",
         ],
     )
 

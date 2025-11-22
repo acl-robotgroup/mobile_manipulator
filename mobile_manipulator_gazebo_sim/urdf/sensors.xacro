@@ -20,6 +20,7 @@
                 <pose relative_to="${target}">0 0 0 0 0 0</pose>
 
                 <topic>${target}/scan</topic>
+                <gz_frame_id>${target}</gz_frame_id>
                 <update_rate>${update_rate}</update_rate>
 
                 <lidar>
