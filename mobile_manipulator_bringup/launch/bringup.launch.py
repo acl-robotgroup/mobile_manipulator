@@ -89,7 +89,6 @@ def generate_launch_description():
         launch_arguments={
             "camera_name": "camera_front",
             "serial_number": "AY3794300RP",
-            "device_num": "4",
         }.items(),
     )
     includes.append(TimerAction(
@@ -108,7 +107,6 @@ def generate_launch_description():
         launch_arguments={
             "camera_name": "camera_left",
             "serial_number": "AY3794301EW",
-            "device_num": "4",
         }.items(),
     )
     includes.append(TimerAction(
@@ -127,7 +125,6 @@ def generate_launch_description():
         launch_arguments={
             "camera_name": "camera_right",
             "serial_number": "AY37943017E",
-            "device_num": "4",
         }.items(),
     )
     includes.append(TimerAction(
