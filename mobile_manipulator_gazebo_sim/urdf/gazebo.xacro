@@ -29,4 +29,10 @@
 
     <xacro:lidar target="${prefix}lidar_front"/>
     <xacro:lidar target="${prefix}lidar_rear"/>
+
+    <xacro:femto_bolt target="${prefix}camera_top"/>
+
+    <xacro:gemini2 target="${prefix}camera_front"/>
+    <xacro:gemini2 target="${prefix}camera_left"/>
+    <xacro:gemini2 target="${prefix}camera_right"/>
 </robot>
