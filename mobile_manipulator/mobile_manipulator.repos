@@ -37,3 +37,8 @@ repositories:
     type: git
     url: https://github.com/Slamtec/sllidar_ros2.git
     version: main
+
+  lib/dual_laser_merger:
+    type: git
+    url: https://github.com/pradyum/dual_laser_merger.git
+    version: jazzy

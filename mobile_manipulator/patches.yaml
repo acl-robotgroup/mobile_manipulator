@@ -1,0 +1,6 @@
+repositories:
+  base/ugv_sdk:
+    patch: mobile_manipulator/mobile_manipulator/patches/ugv_sdk.diff
+
+  lib/dual_laser_merger:
+    patch: mobile_manipulator/mobile_manipulator/patches/dual_laser_merger.diff
