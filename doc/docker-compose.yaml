@@ -1,0 +1,22 @@
+services:
+  doc:
+    build: .
+    image: mobile-manipulator-sphinx
+    volumes:
+      - ..:/src
+      - artifacts:/build
+
+  web:
+    image: nginx:alpine
+    ports:
+      - "8000:80"
+    volumes:
+      - artifacts:/usr/share/nginx:ro
+    restart: unless-stopped
+    depends_on:
+      doc:
+        condition: service_completed_successfully
+        restart: true
+
+volumes:
+  artifacts:
