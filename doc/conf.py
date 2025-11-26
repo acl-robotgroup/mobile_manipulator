@@ -30,6 +30,6 @@ html_theme_options = {
     "logo_only": True,
     "prev_next_buttons_location": "bottom",
 }
-html_title = "Interactive Planning Documentation"
+html_title = "Mobile Manipulator Documentation"
 html_logo = "_static/images/logo.jpg"
 html_static_path = ["_static"]

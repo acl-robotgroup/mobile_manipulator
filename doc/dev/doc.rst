@@ -33,11 +33,11 @@ Stop the container with:
 Local Build
 ===========
 
-After installing ``docs/requirements.txt``, you can build locally:
+After installing ``doc/requirements.txt``, you can build locally:
 
 .. code-block:: bash
 
    # in <repo_root>/doc
    make html
 
-Open ``build/html/index.html`` in a browser to preview the output.
+Open ``_build/html/index.html`` in a browser to preview the output.

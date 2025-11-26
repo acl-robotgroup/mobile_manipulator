@@ -1,3 +1,5 @@
+.. _dev_style:
+
 ==========================
 Documentation Style Guide
 ==========================
