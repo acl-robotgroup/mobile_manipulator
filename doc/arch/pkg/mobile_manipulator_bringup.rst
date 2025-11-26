@@ -7,8 +7,8 @@ mobile_manipulator_bringup
 Purpose
 =======
 
-- Starts the hardware stack: base drivers, lidars, depth cameras, and any
-  auxiliary nodes required to operate the platform.
+- Boots the hardware stack: base drivers, lidars, depth cameras, and supporting
+  nodes required to operate the platform.
 - Applies sensor parameters and namespaces so duplicated devices (e.g.,
   `lidar_front`, `lidar_rear`, `camera_*`) stay isolated in TF and topics.
 - Provides RViz setups for monitoring live hardware.
@@ -26,13 +26,13 @@ Technologies
 ============
 
 - `ROS 2 launch
-  <https://docs.ros.org/en/humble/Concepts/Intermediate/Launch/Launch-system.html>`_
+  <https://docs.ros.org/en/jazzy/Concepts/Intermediate/Launch/Launch-system.html>`_
   for composing bringup flows and timed actions.
 - Namespaces/remapping (`ros2` remapping guide
-  <https://docs.ros.org/en/humble/Concepts/Intermediate/Remapping/Remapping.html>`_)
+  <https://docs.ros.org/en/jazzy/Concepts/Intermediate/Remapping/Remapping.html>_)
   to prevent topic/frame collisions across identical sensors.
-- `tf2 <https://docs.ros.org/en/humble/Concepts/Intermediate/TF.html>`_ to keep
+- `tf2 <https://docs.ros.org/en/jazzy/Concepts/Intermediate/TF.html>`_ to keep
   hardware frames consistent with the description package.
 - Parameter YAML files (`ROS 2 parameters
-  <https://docs.ros.org/en/humble/Concepts/Basic/About-Parameters.html>`_) to
+  <https://docs.ros.org/en/jazzy/Concepts/Basic/About-Parameters.html>`_) to
   configure drivers without code changes.

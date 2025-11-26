@@ -35,5 +35,5 @@ In short, this project contains the following packages:
 - :ref:`Bringup <arch_pkg_mobile_manipulator_bringup>`: Launch and parameter
   files to start hardware drivers, sensors.
 - :ref:`Gazebo Simulation <arch_pkg_mobile_manipulator_gazebo_sim>`: Worlds,
-  topic bridges and extra xacro files to simulate the robot in `Gazebo
+  bridge and extra xacro files to simulate the robot in `Gazebo
   <https://gazebosim.org/home>`_.

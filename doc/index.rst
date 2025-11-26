@@ -7,6 +7,19 @@ Mobile Manipulator Documentation
 Project Overview
 ================
 
+TODO
+
+.. toctree::
+   :caption: Usage
+   :maxdepth: 1
+   :hidden:
+
+   usage/index
+   usage/install
+   usage/description
+   usage/bringup
+   usage/gazebo_sim
+
 .. toctree::
    :caption: Architecture
    :maxdepth: 1

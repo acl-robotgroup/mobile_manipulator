@@ -7,7 +7,7 @@ mobile_manipulator_gazebo_sim
 Purpose
 =======
 
-- Runs the robot in Gazebo with the same description used for hardware.
+- Runs the robot in Gazebo using the same description as hardware.
 - Spawns the robot, loads controllers, and bridges key topics between ROS 2 and
   Gazebo transport for sensor and command streams.
 - Hosts simulation-specific URDF overlays (controllers, Gazebo plugins) and
@@ -32,8 +32,8 @@ Technologies
   (`ros_gz <https://gazebosim.org/docs/harmonic/ros2_integration>`_ and bridge
   configuration `ros_gz topics
   <https://github.com/gazebosim/ros_gz/tree/ros2#bridge-configuration>`_).
-- `ros2_control <https://control.ros.org/humble/index.html>`_ and
+- `ros2_control <https://control.ros.org/jazzy/index.html>`_ and
   `ros2_controllers` for actuator interfaces inside simulation.
 - `ROS 2 launch
-  <https://docs.ros.org/en/humble/Concepts/Intermediate/Launch/Launch-system.html>`_
+  <https://docs.ros.org/en/jazzy/Concepts/Intermediate/Launch/Launch-system.html>`_
   for composing simulator startup and spawn flows.

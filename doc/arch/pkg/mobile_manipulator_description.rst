@@ -27,13 +27,13 @@ Key Files
 Technologies
 ============
 
-- `Xacro <https://docs.ros.org/en/humble/Tutorials/Intermediate/URDF/Using-Xacro-to-Clean-Up-a-URDF-File.html>`_
-  to keep the URDF modular and parameterized.
-- `URDF <https://docs.ros.org/en/humble/Concepts/About-URDF.html>`_ for the
-  robot model consumed by downstream tools.
+- `URDF <https://wiki.ros.org/urdf>`_ for the robot model consumed by downstream
+  tools.
+- `Xacro <https://wiki.ros.org/xacro>`_ to keep the URDF modular and
+  parameterized.
 - `robot_state_publisher
-  <https://docs.ros.org/en/humble/Concepts/About-State-Republication.html>`_
-  and `tf2 <https://docs.ros.org/en/humble/Concepts/Intermediate/TF.html>`_ to
+  <https://docs.ros.org/en/jazzy/Concepts/About-State-Republication.html>`_
+  and `tf2 <https://docs.ros.org/en/jazzy/Concepts/Intermediate/TF.html>`_ to
   broadcast the robot frame tree.
-- `RViz 2 <https://docs.ros.org/en/humble/Tutorials/RViz/Introduction-To-RViz.html>`_
+- `RViz 2 <https://docs.ros.org/en/jazzy/Tutorials/RViz/Introduction-To-RViz.html>`_
   for model visualization and debugging.

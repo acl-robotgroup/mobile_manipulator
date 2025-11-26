@@ -8,28 +8,31 @@ Purpose
 =======
 
 - Provides a metapackage entry point so downstream workspaces can depend on a
-  single package that brings in the full robot stack.
-- Hosts repository management assets: `.repos` manifest for `vcs import`, patch
-  instructions, and the `patch_repos.py` helper to apply curated fixes after
-  fetching dependencies.
-- Carries ament metadata that wires the bringup and description packages
-  together for builds and deployments.
+  single package that brings in the full robot stack. Refer to `Using variants
+  <https://docs.ros.org/en/jazzy/How-To-Guides/Using-Variants.html>`_ for more
+  information on metapackages in ROS 2.
+- Hosts repository management assets: `.repos` manifest for `vcstool
+  <https://wiki.ros.org/vcstool>`_, which defines external dependencies of this
+  project.
+- Contains git patch files, and the `patch_repos.py` helper to apply curated
+  fixes after fetching dependencies.
 
 Key Files
 =========
 
-- `mobile_manipulator.repos`: source manifest consumed by `vcs import` to fetch
-  external repositories.
-- `patches.yaml` and `patches/*.diff`: patch list and payloads for upstream
-  packages.
-- `scripts/patch_repos.py`: applies the patches in a workspace after import.
+- `mobile_manipulator.repos`: `vcstool` source manifest to fetch external
+  repositories.
+- `patches.yaml` and `patches/*.diff`: Patch list and payloads for fetched
+  repositories.
+- `scripts/patch_repos.py`: Script for applying the patches defined in
+  `patches.yaml`.
 
 Technologies
 ============
-- `ament_cmake <https://docs.ros.org/en/humble/Tutorials/Intermediate/Building-Your-First-ROS2-Package.html>`_
-  metapackage structure for ROS 2 builds.
-- `vcs import
-  <https://docs.ros.org/en/humble/How-To-Guides/MultipleRepositories.html>`_
-  to sync external sources in `src/`.
-- `rosdep <https://docs.ros.org/en/humble/Tutorials/Intermediate/Rosdep.html>`_
-  for dependency installation after sources are fetched and patched.
+
+- `rosdep <https://docs.ros.org/en/jazzy/Tutorials/Intermediate/Rosdep.html>`_:
+  Unified tool for installing packages via system dependent tools like `apt`.
+- `vcstool <https://wiki.ros.org/vcstool>`_: Tool for fetching dependent
+  repositories unable to be installed via `rosdep`.
+- `git apply <https://git-scm.com/docs/git-apply>`_: Used to apply patches to
+  fetched repositories.
