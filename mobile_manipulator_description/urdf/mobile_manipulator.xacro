@@ -15,12 +15,12 @@
             <origin xyz="0 0 0.016" rpy="0 0 0"/>
         </xacro:frame>
 
-        <xacro:piper prefix="${prefix}piper_"/>
+        <!-- <xacro:piper prefix="${prefix}piper_"/>
         <joint name="${prefix}piper_joint" type="fixed">
             <origin xyz="0.37 0 0.714" rpy="0 0 0"/>
             <parent link="${prefix}frame"/>
             <child link="${prefix}piper_base_link"/>
-        </joint>
+        </joint> -->
 
         <xacro:lidar name="${prefix}lidar_front" parent="${prefix}frame">
             <origin xyz="0.144 0 0.15" rpy="${radians(180)} 0 ${radians(180)}"/>
@@ -28,6 +28,13 @@
         <xacro:lidar name="${prefix}lidar_rear" parent="${prefix}frame">
             <origin xyz="-0.144 0 0.15" rpy="${radians(180)} 0 0"/>
         </xacro:lidar>
+
+        <link name="${prefix}lidar_merged"/>
+        <joint name="${prefix}lidar_merged_joint" type="fixed">
+            <origin xyz="0 0 0.119" rpy="0 0 0"/>
+            <parent link="${prefix}frame"/>
+            <child link="${prefix}lidar_merged"/>
+        </joint>
 
         <xacro:gemini2 name="${prefix}camera_front" parent="${prefix}frame">
             <origin xyz="0.155 0 0.453" rpy="${radians(180)} 0 0"/>

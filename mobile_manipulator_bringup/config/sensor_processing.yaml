@@ -1,0 +1,41 @@
+/**:
+  lidar_front:
+    laser_filter:
+      ros__parameters:
+        filter1:
+          name: angle
+          type: laser_filters/LaserScanAngularBoundsFilterInPlace
+          params:
+            lower_angle: -0.785
+            upper_angle: 0.785
+        filter2:
+          name: range
+          type: laser_filters/LaserScanRangeFilter
+          params:
+            lower_threshold: 0.25
+            upper_threshold: .inf
+
+  lidar_rear:
+    laser_filter:
+      ros__parameters:
+        filter1:
+          name: angle
+          type: laser_filters/LaserScanAngularBoundsFilterInPlace
+          params:
+            lower_angle: -0.785
+            upper_angle: 0.785
+        filter2:
+          name: range
+          type: laser_filters/LaserScanRangeFilter
+          params:
+            lower_threshold: 0.25
+            upper_threshold: .inf
+
+  dual_laser_merger:
+    ros__parameters:
+      laser_1_topic: lidar_front/scan_filtered
+      laser_2_topic: lidar_rear/scan_filtered
+      merged_scan_topic: lidar_merged/scan
+      target_frame: lidar_merged
+
+      scan_time: 0.1
