@@ -1,0 +1,137 @@
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+    Property Tree Widget:
+      Expanded:
+        - /Cameras1
+        - /Depth Images1
+  - Class: rviz_common/Views
+    Name: Views
+Visualization Manager:
+  Class: ""
+  Name: root
+  Global Options:
+    Fixed Frame: odom
+    Frame Rate: 30
+  Displays:
+    - Class: rviz_default_plugins/Grid
+      Name: Grid
+      Value: true
+    - Class: rviz_default_plugins/RobotModel
+      Name: RobotModel
+      Description Source: Topic
+      Description Topic:
+        Value: robot_description
+      Value: true
+    - Class: rviz_default_plugins/TF
+      Name: TF
+      Filter (whitelist): odom|base_footprint
+      Show Names: true
+      Show Axes: true
+      Show Arrows: true
+      Value: true
+
+    - Class: rviz_default_plugins/Odometry
+      Name: Odometry
+      Topic: odom
+      Shape:
+        Axes Length: 1
+        Axes Radius: 0.1
+        Head Length: 0.1
+        Head Radius: 0.03
+        Shaft Length: 0.3
+        Shaft Radius: 0.015
+        Value: Arrow
+      Covariance:
+        Orientation:
+          Offset: 0.3
+        Position:
+          Alpha: 0.03
+      Value: true
+    - Class: rviz_default_plugins/LaserScan
+      Name: Lidar Front
+      Topic: lidar_front/scan
+      Color Transformer: FlatColor
+      Color: 0; 255; 0
+      Size (m): 0.02
+      Value: true
+    - Class: rviz_default_plugins/LaserScan
+      Name: Lidar Rear
+      Topic: lidar_rear/scan
+      Color Transformer: FlatColor
+      Color:  0; 0; 255
+      Size (m): 0.02
+      Value: true
+    - Class: rviz_common/Group
+      Name: Cameras
+      Enabled: true
+      Displays:
+        - Class: rviz_default_plugins/Camera
+          Name: Top
+          Topic: camera_top/color/image_raw
+          Value: true
+        - Class: rviz_default_plugins/Camera
+          Name: Front
+          Topic: camera_front/color/image_raw
+          Value: true
+        - Class: rviz_default_plugins/Camera
+          Name: Left
+          Topic: camera_left/color/image_raw
+          Value: true
+        - Class: rviz_default_plugins/Camera
+          Name: Right
+          Topic: camera_right/color/image_raw
+          Value: true
+
+    - Class: rviz_common/Group
+      Name: Depth Images
+      Enabled: true
+      Displays:
+        - Class: rviz_default_plugins/Image
+          Name: Top
+          Normalize Range: false
+          Topic: camera_top/depth/image_raw
+          Min Value: 0
+          Max Value: 10
+          Value: true
+        - Class: rviz_default_plugins/Image
+          Name: Front
+          Normalize Range: false
+          Topic: camera_front/depth/image_raw
+          Min Value: 0
+          Max Value: 10
+          Value: true
+        - Class: rviz_default_plugins/Image
+          Name: Left
+          Normalize Range: false
+          Topic: camera_left/depth/image_raw
+          Min Value: 0
+          Max Value: 10
+          Value: true
+        - Class: rviz_default_plugins/Image
+          Name: Right
+          Normalize Range: false
+          Topic: camera_right/depth/image_raw
+          Min Value: 0
+          Max Value: 10
+          Value: true
+
+  Tools:
+    - Class: rviz_default_plugins/Interact
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/Select
+    - Class: rviz_default_plugins/FocusCamera
+    - Class: rviz_default_plugins/Measure
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Distance: 10
+      Name: Current View
+      Pitch: 0.52359877559
+      Value: Orbit (rviz)
+      Yaw: 3.14159265359
+  Value: true
+Window Geometry:
+  Height: 800
+  Width: 1200
+  QMainWindow State: 000000ff00000000fd000000030000000000000156000002cdfc0200000002fb000000100044006900730070006c006100790073010000003b000002cd000000c700fffffffb0000000a005600690065007700730000000305000000d3000000a000ffffff000000010000014000000291fc0200000001fb000000060054006f0070030000061f000000d30000013e00000126000000030000073e000000cafc0100000007fb000000060054006f007003000006210000020c000001390000012bfb00000008004c0065006600740100000000000001400000004b00fffffffb0000000a00460072006f006e00740100000146000001400000005300fffffffb0000000a00520069006700680074010000028c000001440000005400fffffffb00000008004c00650066007401000003d6000001210000004b00fffffffb0000000a00460072006f006e007401000004fd0000011e0000005300fffffffb0000000a0052006900670068007401000006210000011d0000005400ffffff000005e2000002cd00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000

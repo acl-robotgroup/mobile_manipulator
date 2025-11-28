@@ -35,7 +35,7 @@
     ros__parameters:
       laser_1_topic: lidar_front/scan_filtered
       laser_2_topic: lidar_rear/scan_filtered
-      merged_scan_topic: lidar_merged/scan
+      merged_scan_topic: scan
       target_frame: lidar_merged
 
       scan_time: 0.1

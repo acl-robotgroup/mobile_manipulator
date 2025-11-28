@@ -8,12 +8,20 @@ from launch_ros.substitutions import FindPackageShare
 def generate_launch_description():
     # arguments
     arguments = []
+    arguments.append(
+        DeclareLaunchArgument(
+            "perset",
+            default_value="sensors.rviz",
+            description="RViz preset to load",
+        ))
 
     # initialize substitutions
+    preset = LaunchConfiguration("perset")
+
     rviz_config = PathJoinSubstitution([
         FindPackageShare("mobile_manipulator_bringup"),
         "rviz",
-        "display.rviz",
+        preset,
     ])
 
     # nodes
@@ -22,7 +30,6 @@ def generate_launch_description():
         Node(
             package="rviz2",
             executable="rviz2",
-            name="rviz2",
             arguments=[
                 "-d",
                 rviz_config,

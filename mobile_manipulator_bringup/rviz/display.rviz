@@ -1,6 +1,10 @@
 Panels:
   - Class: rviz_common/Displays
     Name: Displays
+    Property Tree Widget:
+      Expanded:
+        - /Sensor Raw1
+        - /Sensor Processed1
   - Class: rviz_common/Views
     Name: Views
 Visualization Manager:
@@ -27,8 +31,7 @@ Visualization Manager:
       Show Arrows: true
       Value: true
     - Class: rviz_common/Group
-      Name: Sensors
-      Enabled: true
+      Name: Sensor Raw
       Displays:
         - Class: rviz_default_plugins/Odometry
           Name: Odometry
@@ -51,7 +54,7 @@ Visualization Manager:
           Name: Lidar Front
           Topic: lidar_front/scan
           Color Transformer: FlatColor
-          Color: 255; 0; 0
+          Color: 0; 255; 0
           Size (m): 0.02
           Value: true
         - Class: rviz_default_plugins/LaserScan
@@ -61,10 +64,73 @@ Visualization Manager:
           Color:  0; 0; 255
           Size (m): 0.02
           Value: true
-        - Class: rviz_default_plugins/Camera
-          Name: Camera
-          Topic: camera_top/color/image_raw
-          Value: true
+        - Class: rviz_common/Group
+          Name: Cameras
+          Enabled: true
+          Displays:
+            - Class: rviz_default_plugins/Camera
+              Name: Top
+              Topic: camera_top/color/image_raw
+              Value: true
+            - Class: rviz_default_plugins/Camera
+              Name: Front
+              Topic: camera_front/color/image_raw
+              Value: true
+            - Class: rviz_default_plugins/Camera
+              Name: Left
+              Topic: camera_left/color/image_raw
+              Value: true
+            - Class: rviz_default_plugins/Camera
+              Name: Right
+              Topic: camera_right/color/image_raw
+              Value: true
+
+        - Class: rviz_common/Group
+          Name: Sensor Processed
+          Enabled: true
+          Displays:
+            - Class: rviz_default_plugins/Image
+              Name: Top
+              Normalize Range: false
+              Topic: camera_top/depth/image_raw
+              Min Value: 0
+              Max Value: 10
+              Value: true
+            - Class: rviz_default_plugins/Image
+              Name: Front
+              Normalize Range: false
+              Topic: camera_front/depth/image_raw
+              Min Value: 0
+              Max Value: 10
+              Value: true
+            - Class: rviz_default_plugins/Image
+              Name: Left
+              Normalize Range: false
+              Topic: camera_left/depth/image_raw
+              Min Value: 0
+              Max Value: 10
+              Value: true
+            - Class: rviz_default_plugins/Image
+              Name: Right
+              Normalize Range: false
+              Topic: camera_right/depth/image_raw
+              Min Value: 0
+              Max Value: 10
+              Value: true
+
+    - Class: rviz_common/Group
+      Name: Sensor Processed
+      Enabled: true
+      Displays:
+      - Class: rviz_default_plugins/LaserScan
+        Name: Lidar
+        Topic:
+          Value: scan
+          Reliability Policy: Best Effort
+        Color Transformer: FlatColor
+        Color: 255; 0; 0
+        Size (m): 0.05
+        Value: true
 
   Tools:
     - Class: rviz_default_plugins/Interact
@@ -84,4 +150,3 @@ Visualization Manager:
 Window Geometry:
   Height: 800
   Width: 1200
-  QMainWindow State: 000000ff00000000fd00000001000000000000019b000002cafc0200000003fb000000100044006900730070006c006100790073010000003b00000136000000c700fffffffb0000000a005600690065007700730100000177000000c7000000a000fffffffb0000000c00430061006d0065007200610100000244000000c10000001600ffffff0000030f000002ca00000004000000040000000800000008fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
