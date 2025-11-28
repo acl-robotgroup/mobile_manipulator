@@ -60,17 +60,6 @@ def generate_launch_description():
             ]),
             launch_arguments={}.items(),
         ))
-    includes.append(
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource([
-                PathJoinSubstitution([
-                    FindPackageShare("mobile_manipulator_bringup"),
-                    "launch",
-                    "visualize.launch.py",
-                ]),
-            ]),
-            launch_arguments={}.items(),
-        ))
 
     nodes = []
     nodes.append(

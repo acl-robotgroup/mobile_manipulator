@@ -35,4 +35,15 @@
     <xacro:gemini2 target="${prefix}camera_front"/>
     <xacro:gemini2 target="${prefix}camera_left"/>
     <xacro:gemini2 target="${prefix}camera_right"/>
+
+    <gazebo>
+        <plugin filename="gz-sim-odometry-publisher-system"
+            name="gz::sim::systems::OdometryPublisher">
+            <odom_frame>${prefix}odom</odom_frame>
+            <robot_base_frame>${prefix}base_footprint</robot_base_frame>
+            <odom_publish_frequency>100</odom_publish_frequency>
+            <odom_topic>odom</odom_topic>
+            <tf_topic>/tf</tf_topic>
+        </plugin>
+    </gazebo>
 </robot>

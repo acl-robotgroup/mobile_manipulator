@@ -106,8 +106,6 @@ def generate_launch_description():
             "60",
             "--controller-ros-args",
             "-r diff_drive_base_controller/cmd_vel:=cmd_vel",
-            "--controller-ros-args",
-            "-r diff_drive_base_controller/odom:=odom",
         ],
     )
 

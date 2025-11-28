@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- modified from https://github.com/orbbec/OrbbecSDK_ROS2/blob/v2-main/orbbec_description/urdf/gemini2.urdf.xarco
-     since the original one have no flexibility in setting custom names -->
+     since the original one have no flexibility in setting custom names. Also it does not have
+     depth_optical_frame -->
 
 <!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com)
      Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
@@ -478,5 +479,12 @@
     <axis
       xyz="0 0 0" />
   </joint>
+
+  <joint name="${name}_depth_optical_joint" type="fixed">
+    <origin xyz="0 0 0" rpy="${-M_PI/2} 0 ${-M_PI/2}" />
+    <parent link="${name}_depth_frame" />
+    <child link="${name}_depth_optical_frame" />
+  </joint>
+  <link name="${name}_depth_optical_frame"/>
   </xacro:macro>
 </robot>

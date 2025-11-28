@@ -144,7 +144,8 @@
 
         <gazebo reference="${target}">
             <sensor name="${target}_camera" type="camera">
-                <!-- wrong convection for non-optical frame, have to rotate -->
+                <!-- wrong convection for color non-optical frame, have to rotate here, but infra1,
+                 infra2 and depth frames are all correct -->
                 <!-- ref: PEP 103: https://www.ros.org/reps/rep-0103.html#suffix-frames -->
                 <pose relative_to="${target}_color_frame">0 0 0 ${radians(90)} ${radians(-90)} 0</pose>
 
@@ -171,7 +172,7 @@
             </sensor>
 
             <sensor name="${target}_depth_camera" type="depth">
-                <pose relative_to="${target}_depth_frame">0 0 0 ${radians(90)} ${radians(-90)} 0</pose>
+                <pose relative_to="${target}_depth_frame">0 0 0 0 0 0</pose>
 
                 <topic>${target}/depth/image_raw</topic>
                 <camera_info_topic>${target}/depth/camera_info</camera_info_topic>
