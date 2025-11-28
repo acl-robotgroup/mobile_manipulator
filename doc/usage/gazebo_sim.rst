@@ -29,8 +29,8 @@ What it does
   plugins.
 - Launches ``mobile_manipulator_bringup/launch/visualize.launch.py`` so RViz is
   open alongside simulation.
-- Runs ``ros_gz_bridge`` with ``config/gz_bridge.yaml`` to bridge sensors and
-  commands.
+- Runs ``ros_gz_bridge`` with ``config/gz_bridge.yaml`` to bridge sensors,
+  ``cmd_vel``, odometry, and TF.
 
 Spawn only
 ==========
@@ -55,5 +55,5 @@ What it does
 - Re-runs ``mobile_manipulator_description/launch/description.launch.py`` with a
   Gazebo-specific overlay and ``use_sim_time`` enabled.
 - Uses ``ros_gz_sim create`` to spawn the model into the current simulation.
-- Sequentially starts ``joint_state_broadcaster`` then
-  ``diff_drive_base_controller`` once the entity exists.
+- Relies on Gazebo's native ``DiffDrive`` system plugin for base motion (no ROS
+  controller manager).
