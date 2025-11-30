@@ -16,52 +16,51 @@ Visualization Manager:
   Displays:
     - Class: rviz_default_plugins/Grid
       Name: Grid
-      Value: true
+      Enabled: true
     - Class: rviz_default_plugins/RobotModel
       Name: RobotModel
       Description Source: Topic
-      Description Topic:
-        Value: robot_description
-      Value: true
+      Description Topic: robot_description
+      Enabled: true
     - Class: rviz_default_plugins/TF
       Name: TF
       Filter (whitelist): odom|base_footprint
       Show Names: true
       Show Axes: true
       Show Arrows: true
-      Value: true
+      Enabled: true
 
     - Class: rviz_default_plugins/Odometry
       Name: Odometry
       Topic: odom
       Shape:
+        Value: Arrow
         Axes Length: 1
         Axes Radius: 0.1
         Head Length: 0.1
         Head Radius: 0.03
         Shaft Length: 0.3
         Shaft Radius: 0.015
-        Value: Arrow
       Covariance:
         Orientation:
           Offset: 0.3
         Position:
           Alpha: 0.03
-      Value: true
+      Enabled: true
     - Class: rviz_default_plugins/LaserScan
       Name: Lidar Front
       Topic: lidar_front/scan
       Color Transformer: FlatColor
       Color: 0; 255; 0
       Size (m): 0.02
-      Value: true
+      Enabled: true
     - Class: rviz_default_plugins/LaserScan
       Name: Lidar Rear
       Topic: lidar_rear/scan
       Color Transformer: FlatColor
       Color:  0; 0; 255
       Size (m): 0.02
-      Value: true
+      Enabled: true
     - Class: rviz_common/Group
       Name: Cameras
       Enabled: true
@@ -69,19 +68,19 @@ Visualization Manager:
         - Class: rviz_default_plugins/Camera
           Name: Top
           Topic: camera_top/color/image_raw
-          Value: true
+          Enabled: true
         - Class: rviz_default_plugins/Camera
           Name: Front
           Topic: camera_front/color/image_raw
-          Value: true
+          Enabled: true
         - Class: rviz_default_plugins/Camera
           Name: Left
           Topic: camera_left/color/image_raw
-          Value: true
+          Enabled: true
         - Class: rviz_default_plugins/Camera
           Name: Right
           Topic: camera_right/color/image_raw
-          Value: true
+          Enabled: true
 
     - Class: rviz_common/Group
       Name: Depth Images
@@ -93,28 +92,28 @@ Visualization Manager:
           Topic: camera_top/depth/image_raw
           Min Value: 0
           Max Value: 10
-          Value: true
+          Enabled: true
         - Class: rviz_default_plugins/Image
           Name: Front
           Normalize Range: false
           Topic: camera_front/depth/image_raw
           Min Value: 0
           Max Value: 10
-          Value: true
+          Enabled: true
         - Class: rviz_default_plugins/Image
           Name: Left
           Normalize Range: false
           Topic: camera_left/depth/image_raw
           Min Value: 0
           Max Value: 10
-          Value: true
+          Enabled: true
         - Class: rviz_default_plugins/Image
           Name: Right
           Normalize Range: false
           Topic: camera_right/depth/image_raw
           Min Value: 0
           Max Value: 10
-          Value: true
+          Enabled: true
 
   Tools:
     - Class: rviz_default_plugins/Interact
@@ -125,12 +124,11 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 10
       Name: Current View
+      Distance: 10
       Pitch: 0.52359877559
-      Value: Orbit (rviz)
       Yaw: 3.14159265359
-  Value: true
+  Enabled: true
 Window Geometry:
   Height: 800
   Width: 1200

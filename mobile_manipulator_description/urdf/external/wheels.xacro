@@ -50,7 +50,7 @@
             </collision>
         </link>
 
-        <joint name="${name}_link_joint" type="continuous">
+        <joint name="${name}_link_joint" type="fixed"> <!-- continuous -->
             <xacro:insert_block name="joint_pose"/>
             <parent link="${parent}"/>
             <child link="${name}_link"/>
