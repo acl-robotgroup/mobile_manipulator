@@ -1,15 +1,22 @@
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, RegisterEventHandler
+from launch.actions import DeclareLaunchArgument, GroupAction, IncludeLaunchDescription, RegisterEventHandler
+from launch.conditions import IfCondition
 from launch.event_handlers import OnProcessExit
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
-from launch_ros.actions import Node
+from launch_ros.actions import Node, SetUseSimTime
 from launch_ros.substitutions import FindPackageShare
 
 
 def generate_launch_description():
     # arguments
     arguments = []
+    arguments.append(
+        DeclareLaunchArgument(
+            "visualize",
+            default_value="false",
+            description="Whether to visualize the simulated robot",
+        ))
     arguments.append(
         DeclareLaunchArgument(
             "x",
@@ -36,14 +43,21 @@ def generate_launch_description():
         ))
 
     # initialize substitutions
+    visualize = LaunchConfiguration("visualize")
     x = LaunchConfiguration("x")
     y = LaunchConfiguration("y")
     z = LaunchConfiguration("z")
     yaw = LaunchConfiguration("yaw")
+
     gazebo_xacro = PathJoinSubstitution([
         FindPackageShare("mobile_manipulator_gazebo_sim"),
         "urdf",
         "gazebo.xacro",
+    ])
+    rviz_config = PathJoinSubstitution([
+        FindPackageShare("mobile_manipulator_bringup"),
+        "rviz",
+        "visualize.rviz",
     ])
 
     # includes
@@ -62,13 +76,15 @@ def generate_launch_description():
                     "extra_xacro:=",
                     gazebo_xacro,
                 ],
-                "use_sim_time": "True",
+                "use_sim_time": "true",
             }.items(),
         ))
 
     # nodes
+    nodes = []
+
     # gz_ros2_control::GazeboSimROS2ControlPlugin in the robot description seems
-    # to cause gazebo run a built-in controller manager, son no need to run a
+    # to cause gazebo run a built-in controller manager, so no need to run a
     # controller manager node here.
     gz_spawn_entity = Node(
         package="ros_gz_sim",
@@ -106,11 +122,12 @@ def generate_launch_description():
             "60",
             "--controller-ros-args",
             "-r diff_drive_base_controller/cmd_vel:=cmd_vel",
+            "--controller-ros-args",
+            "-r /diff_drive_base_controller/odom:=odom"
         ],
     )
-
-    nodes = []
     nodes.append(gz_spawn_entity)
+
     nodes.append(
         RegisterEventHandler(event_handler=OnProcessExit(
             target_action=gz_spawn_entity,
@@ -121,5 +138,15 @@ def generate_launch_description():
             target_action=joint_state_broadcaster_spawner,
             on_exit=[diff_drive_base_controller_spawner],
         )))
+    nodes.append(
+        Node(
+            package="rviz2",
+            executable="rviz2",
+            name="rviz2",
+            arguments=["-d", rviz_config],
+            condition=IfCondition(visualize),
+        ))
 
-    return LaunchDescription(arguments + includes + nodes)
+    use_sim_time_group = GroupAction([SetUseSimTime(True)] + nodes)
+
+    return LaunchDescription(arguments + includes + [use_sim_time_group])

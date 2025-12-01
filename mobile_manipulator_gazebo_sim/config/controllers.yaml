@@ -12,10 +12,10 @@
     ros__parameters:
       # publish default joint states for passive joints
       extra_joints:
-        - caster_wheel_fl_link_joint
-        - caster_wheel_fr_link_joint
-        - caster_wheel_rl_link_joint
-        - caster_wheel_rr_link_joint
+        # - caster_wheel_fl_link_joint
+        # - caster_wheel_fr_link_joint
+        # - caster_wheel_rl_link_joint
+        # - caster_wheel_rr_link_joint
         - caster_wheel_fl_joint
         - caster_wheel_fr_joint
         - caster_wheel_rl_joint
@@ -30,6 +30,6 @@
       wheel_radius: 0.06
 
       publish_rate: 100.0
-      enable_odom_tf: false
+      enable_odom_tf: true
       odom_frame_id: odom
       base_frame_id: base_footprint
