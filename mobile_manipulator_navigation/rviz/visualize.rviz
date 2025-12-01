@@ -1,0 +1,101 @@
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+    Property Tree Widget:
+      Expanded:
+        - /Cameras1
+        - /Depth Images1
+  - Class: rviz_common/Views
+    Name: Views
+Visualization Manager:
+  Class: ""
+  Name: root
+  Global Options:
+    Fixed Frame: odom
+    Frame Rate: 30
+  Displays:
+    - Class: rviz_default_plugins/Grid
+      Name: Grid
+      Enabled: true
+    - Class: rviz_default_plugins/RobotModel
+      Name: RobotModel
+      Description Source: Topic
+      Description Topic: robot_description
+      Enabled: true
+    - Class: rviz_default_plugins/TF
+      Name: TF
+      Filter (whitelist): odom|base_footprint
+      Show Names: true
+      Show Axes: true
+      Show Arrows: true
+      Enabled: true
+
+    - Class: rviz_common/Group
+      Name: Global Planner
+      Enabled: true
+      Displays:
+        - Class: rviz_default_plugins/Map
+          Name: Global Costmap
+          Enabled: true
+          Topic: global_costmap/costmap
+          Update Topic: global_costmap/costmap_updates
+          Color Scheme: costmap
+          Alpha: 0.3
+        - Class: rviz_default_plugins/Path
+          Name: Plan
+          Topic: plan
+          Line Style: Billboards
+          Line Width: 0.03
+          Color: 0; 255; 0
+          Enabled: true
+
+    - Class: rviz_common/Group
+      Name: Local Controller
+      Enabled: true
+      Displays:
+        - Class: rviz_default_plugins/Polygon
+          Name: Robot Footprint
+          Enabled: true
+          Topic: local_costmap/published_footprint
+        - Class: rviz_default_plugins/Map
+          Name: Local Costmap
+          Enabled: true
+          Topic: local_costmap/costmap
+          Update Topic: local_costmap/costmap_updates
+          Color Scheme: costmap
+          Alpha: 0.7
+        - Class: rviz_default_plugins/Path
+          Name: Optimal Trajectory
+          Enabled: true
+          Topic: /optimal_trajectory
+          Line Style: Billboards
+          Line Width: 0.03
+          Color: 0; 0; 255
+
+  Tools:
+    - Class: rviz_default_plugins/Interact
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/Select
+    - Class: rviz_default_plugins/FocusCamera
+    - Class: rviz_default_plugins/Measure
+    - Class: rviz_default_plugins/SetInitialPose
+      Covariance x: 0.25
+      Covariance y: 0.25
+      Covariance yaw: 0.07
+      Topic: initialpose
+    - Class: rviz_default_plugins/SetGoal
+      Topic: goal_pose
+    - Class: rviz_default_plugins/PublishPoint
+      Single click: true
+      Topic: clicked_point
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Name: Current View
+      Distance: 10
+      Pitch: 0.52359877559
+      Yaw: 3.14159265359
+  Enabled: true
+Window Geometry:
+  Height: 800
+  Width: 1200

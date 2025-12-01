@@ -40,6 +40,7 @@
 
       scan_time: 0.1
 
+  # ref: https://github.com/SteveMacenski/slam_toolbox/tree/ros2?tab=readme-ov-file#configuration
   slam_toolbox:
     ros__parameters:
       mode: localization
@@ -53,6 +54,9 @@
       use_map_saver: false
       resolution: 0.05
       map_update_interval: 1.0
+
+      minimum_travel_distance: 0.05
+      minimum_travel_heading: 0.1
 
   # ref: https://nvidia-isaac-ros.github.io/repositories_and_packages/isaac_ros_nvblox/isaac_ros_nvblox/api/parameters.html
   nvblox_node:
