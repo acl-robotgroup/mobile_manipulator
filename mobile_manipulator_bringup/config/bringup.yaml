@@ -1,0 +1,114 @@
+/**:
+  lidar_front:
+    sllidar_node:
+      ros__parameters:
+        channel_type: serial
+        serial_port: /dev/rplidar_front
+        serial_baudrate: 1000000
+        frame_id: lidar_front
+        angle_compensate: true
+        scan_mode: DenseBoost
+
+  lidar_rear:
+    sllidar_node:
+      ros__parameters:
+        channel_type: serial
+        serial_port: /dev/rplidar_rear
+        serial_baudrate: 1000000
+        frame_id: lidar_rear
+        angle_compensate: true
+        scan_mode: DenseBoost
+
+  camera_top:
+    orbbec_camera_node:
+      ros__parameters:
+        camera_name: camera_top
+        serial_number: CL8T754005T
+        device_num: 4
+
+        # color
+        enable_color: true
+        color_fps: 30
+        color_format: MJPG
+        color_width: 1920
+        color_height: 1080
+        
+        # depth
+        enable_depth: true
+        depth_fps: 30
+        depth_width: 320
+        depth_height: 288
+
+        # point cloud
+        enable_point_cloud: false
+
+        publish_tf: false
+
+  camera_front:
+    orbbec_camera_node:
+      ros__parameters:
+        camera_name: camera_front
+        serial_number: AY3794300RP
+        device_num: 4
+
+        align_target_stream: COLOR
+        align_mode: HW
+        publish_tf: false
+
+        # color
+        enable_color: true
+        color_fps: 30
+        color_width: 1920
+        color_height: 1080
+        
+        # depth
+        enable_depth: true
+        depth_fps: 30
+        depth_width: 1280
+        depth_height: 800
+
+        # point cloud
+        enable_point_cloud: false
+        enable_colored_point_cloud: false
+
+  camera_left:
+    orbbec_camera_node:
+      ros__parameters:
+        camera_name: camera_left
+        serial_number: AY3794301EW
+        device_num: 4
+
+        # color
+        enable_color: true
+        color_fps: 30
+        color_width: 1920
+        color_height: 1080
+        
+        # depth
+        enable_depth: true
+        depth_fps: 30
+        depth_width: 1280
+        depth_height: 800
+
+        publish_tf: false
+
+  camera_right:
+    orbbec_camera_node:
+      ros__parameters:
+        camera_name: camera_right
+        serial_number: AY37943017E
+        device_num: 4
+
+        # color
+        enable_color: true
+        color_fps: 30
+        color_width: 1920
+        color_height: 1080
+        
+        # depth
+        enable_depth: true
+        depth_fps: 30
+        depth_width: 1280
+        depth_height: 800
+
+        publish_tf: false 

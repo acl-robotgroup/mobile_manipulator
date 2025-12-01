@@ -37,6 +37,7 @@ def generate_launch_description():
         ))
     nodes.append(
         Node(
+            name="rviz2",
             package="rviz2",
             executable="rviz2",
             arguments=[

@@ -1,20 +1,35 @@
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, GroupAction, IncludeLaunchDescription, TimerAction
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
-from launch_ros.actions import Node, PushROSNamespace
+from launch_ros.actions import ComposableNodeContainer, Node
+from launch_ros.descriptions import ComposableNode
 from launch_ros.substitutions import FindPackageShare
 
 
 def generate_launch_description():
     # arguments
     arguments = []
+    arguments.append(
+        DeclareLaunchArgument(
+            "visualize",
+            default_value="false",
+            description="Whether to visualize robot perception",
+        ))
 
     # initialize substitutions
-    sensors_config = PathJoinSubstitution([
+    visualize = LaunchConfiguration("visualize")
+
+    config = PathJoinSubstitution([
         FindPackageShare("mobile_manipulator_bringup"),
         "config",
-        "sensors.yaml",
+        "bringup.yaml",
+    ])
+    rviz_config = PathJoinSubstitution([
+        FindPackageShare("mobile_manipulator_bringup"),
+        "rviz",
+        "visualize.rviz",
     ])
 
     # includes
@@ -30,144 +45,78 @@ def generate_launch_description():
             ]),
             launch_arguments={}.items(),
         ))
-    # includes.append(
-    #     IncludeLaunchDescription(
-    #         PythonLaunchDescriptionSource([
-    #             PathJoinSubstitution([
-    #                 FindPackageShare("tracer_ros2"),
-    #                 "launch",
-    #                 "tracer_base.launch.py",
-    #             ]),
-    #         ]),
-    #         launch_arguments={
-    #             "port_name": "can2",
-    #         }.items(),
-    #     ))
-    includes.append(
-        GroupAction(actions=[
-            PushROSNamespace("lidar_front"),
-            IncludeLaunchDescription(
-                PythonLaunchDescriptionSource([
-                    PathJoinSubstitution([
-                        FindPackageShare("sllidar_ros2"),
-                        "launch",
-                        "sllidar_s3_launch.py",
-                    ]),
-                ]),
-                launch_arguments={
-                    "serial_port": "/dev/rplidar_front",
-                    "frame_id": "lidar_front",
-                }.items(),
-            ),
-        ]))
-    includes.append(
-        GroupAction(actions=[
-            PushROSNamespace("lidar_rear"),
-            IncludeLaunchDescription(
-                PythonLaunchDescriptionSource([
-                    PathJoinSubstitution([
-                        FindPackageShare("sllidar_ros2"),
-                        "launch",
-                        "sllidar_s3_launch.py",
-                    ]),
-                ]),
-                launch_arguments={
-                    "serial_port": "/dev/rplidar_rear",
-                    "frame_id": "lidar_rear",
-                }.items(),
-            ),
-        ]))
 
-    camera_front = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([
-            PathJoinSubstitution([
-                FindPackageShare("orbbec_camera"),
-                "launch",
-                "gemini2.launch.py",
-            ]),
-        ]),
-        launch_arguments={
-            "camera_name": "camera_front",
-            "serial_number": "AY3794300RP",
-        }.items(),
-    )
-    includes.append(TimerAction(
-        period=5.0,
-        actions=[camera_front],
-    ))
-
-    camera_left = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([
-            PathJoinSubstitution([
-                FindPackageShare("orbbec_camera"),
-                "launch",
-                "gemini2.launch.py",
-            ]),
-        ]),
-        launch_arguments={
-            "camera_name": "camera_left",
-            "serial_number": "AY3794301EW",
-        }.items(),
-    )
-    includes.append(TimerAction(
-        period=10.0,
-        actions=[camera_left],
-    ))
-
-    camera_right = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([
-            PathJoinSubstitution([
-                FindPackageShare("orbbec_camera"),
-                "launch",
-                "gemini2.launch.py",
-            ]),
-        ]),
-        launch_arguments={
-            "camera_name": "camera_right",
-            "serial_number": "AY37943017E",
-        }.items(),
-    )
-    includes.append(TimerAction(
-        period=15.0,
-        actions=[camera_right],
-    ))
-
-    camera_top = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([
-            PathJoinSubstitution([
-                FindPackageShare("orbbec_camera"),
-                "launch",
-                "femto_bolt.launch.py",
-            ]),
-        ]),
-        launch_arguments={
-            "camera_name": "camera_top",
-            "serial_number": "CL8T754005T",
-        }.items(),
-    )
-    includes.append(TimerAction(
-        period=15.0,
-        actions=[camera_top],
-    ))
+    # composable nodes
+    composable_nodes = []
+    composable_nodes.append(
+        ComposableNode(
+            name="orbbec_camera_node",
+            namespace="camera_top",
+            package="orbbec_camera",
+            plugin="orbbec_camera::OBCameraNodeDriver",
+            parameters=[config],
+        ))
+    composable_nodes.append(
+        ComposableNode(
+            name="orbbec_camera_node",
+            namespace="camera_front",
+            package="orbbec_camera",
+            plugin="orbbec_camera::OBCameraNodeDriver",
+            parameters=[config],
+        ))
+    composable_nodes.append(
+        ComposableNode(
+            name="orbbec_camera_node",
+            namespace="camera_left",
+            package="orbbec_camera",
+            plugin="orbbec_camera::OBCameraNodeDriver",
+            parameters=[config],
+        ))
+    composable_nodes.append(
+        ComposableNode(
+            name="orbbec_camera_node",
+            namespace="camera_right",
+            package="orbbec_camera",
+            plugin="orbbec_camera::OBCameraNodeDriver",
+            parameters=[config],
+        ))
 
     # nodes
     nodes = []
-    
+    nodes.append(
+        ComposableNodeContainer(
+            name="sensors_container",
+            namespace="",
+            package="rclcpp_components",
+            executable="component_container",
+            composable_node_descriptions=composable_nodes,
+        ))
+
     # the topic names of sllidar_node do not consider the node's name, hence
     # namespace is necessary
     nodes.append(
         Node(
+            name="sllidar_node",
+            namespace="lidar_front",
             package="sllidar_ros2",
             executable="sllidar_node",
-            namespace="lidar_front",
-            parameters=[sensors_config],
+            parameters=[config],
         ))
     nodes.append(
         Node(
+            name="sllidar_node",
+            namespace="lidar_rear",
             package="sllidar_ros2",
             executable="sllidar_node",
-            namespace="lidar_rear",
-            parameters=[sensors_config],
+            parameters=[config],
+        ))
+    nodes.append(
+        Node(
+            name="rviz2",
+            package="rviz2",
+            executable="rviz2",
+            arguments=["-d", rviz_config],
+            condition=IfCondition(visualize),
         ))
 
     return LaunchDescription(arguments + includes + nodes)
