@@ -36,6 +36,15 @@ def generate_launch_description():
         "config",
         "perception.yaml",
     ])
+    visual_localization_config = PathJoinSubstitution([
+        FindPackageShare("isaac_ros_visual_mapping"),
+        "configs",
+        "isaac",
+    ])
+    visual_localization_model = PathJoinSubstitution([
+        FindPackageShare("isaac_ros_visual_mapping"),
+        "models",
+    ])
     rviz_config = PathJoinSubstitution([
         FindPackageShare("mobile_manipulator_perception"),
         "rviz",
@@ -70,6 +79,23 @@ def generate_launch_description():
 
     composable_nodes.append(
         ComposableNode(
+            name="visual_slam_node",
+            package="isaac_ros_visual_slam",
+            plugin="nvidia::isaac_ros::visual_slam::VisualSlamNode",
+            parameters=[config],
+            remappings=[
+                ("visual_slam/image_0", "camera_front/infra1/image_raw"),
+                ("visual_slam/camera_info_0",
+                 "camera_front/infra1/camera_info"),
+                ("visual_slam/image_1", "camera_front/infra2/image_raw"),
+                ("visual_slam/camera_info_1",
+                 "camera_front/infra2/camera_info"),
+                ("visual_slam/tracking/odometry", "odom")
+            ],
+        ))
+
+    composable_nodes.append(
+        ComposableNode(
             name="nvblox_node",
             package="nvblox_ros",
             plugin="nvblox::NvbloxNode",
@@ -98,22 +124,55 @@ def generate_launch_description():
 
     # nodes
     nodes = []
+    # nodes.append(
+    #     ComposableNodeContainer(
+    #         name="visual_localization_container",
+    #         namespace="",
+    #         package="rclcpp_components",
+    #         executable="component_container",
+    #         composable_node_descriptions=[
+    #             ComposableNode(
+    #                 name="visual_localization_node",
+    #                 package="isaac_ros_visual_global_localization",
+    #                 plugin=
+    #                 "nvidia::isaac_ros::visual_global_localization::VisualGlobalLocalizationNode",
+    #                 parameters=[
+    #                     config,
+    #                     {
+    #                         "map_dir": "/home/admin/ws/map",
+    #                         "config_dir": visual_localization_config,
+    #                         "model_dir": visual_localization_model,
+    #                     },
+    #                 ],
+    #                 remappings=[
+    #                     # even camera id (i.e. image_0) is for left camera
+    #                     ("visual_localization/image_0",
+    #                      "camera_front/infra2/image_raw"),
+    #                     ("visual_localization/camera_info_0",
+    #                      "camera_front/infra2/camera_info"),
+    #                     ("visual_localization/image_1",
+    #                      "camera_front/infra1/image_raw"),
+    #                     ("visual_localization/camera_info_1",
+    #                      "camera_front/infra1/camera_info"),
+    #                 ],
+    #             ),
+    #         ]))
     nodes.append(
         ComposableNodeContainer(
             name="perception_container",
             namespace="",
             package="rclcpp_components",
-            executable="component_container",
+            executable="component_container_isolated",
             composable_node_descriptions=composable_nodes,
         ))
-    slam_toolbox = LifecycleNode(
-        package="slam_toolbox",
-        executable="async_slam_toolbox_node",
-        name="slam_toolbox",
-        namespace="",
-        parameters=[config],
-    )
-    nodes.append(slam_toolbox)
+    # slam_toolbox = LifecycleNode(
+    #     package="slam_toolbox",
+    #     executable="async_slam_toolbox_node",
+    #     name="slam_toolbox",
+    #     namespace="",
+    #     parameters=[config],
+    # )
+    # nodes.append(slam_toolbox)
     nodes.append(
         Node(
             name="rviz2",
@@ -130,20 +189,20 @@ def generate_launch_description():
 
     # events
     events = []
-    events.append(
-        EmitEvent(event=ChangeState(
-            lifecycle_node_matcher=matches_action(slam_toolbox),
-            transition_id=Transition.TRANSITION_CONFIGURE)))
-    events.append(
-        RegisterEventHandler(
-            OnStateTransition(
-                target_lifecycle_node=slam_toolbox,
-                start_state="configuring",
-                goal_state="inactive",
-                entities=[
-                    EmitEvent(event=ChangeState(
-                        lifecycle_node_matcher=matches_action(slam_toolbox),
-                        transition_id=Transition.TRANSITION_ACTIVATE))
-                ])))
+    # events.append(
+    #     EmitEvent(event=ChangeState(
+    #         lifecycle_node_matcher=matches_action(slam_toolbox),
+    #         transition_id=Transition.TRANSITION_CONFIGURE)))
+    # events.append(
+    #     RegisterEventHandler(
+    #         OnStateTransition(
+    #             target_lifecycle_node=slam_toolbox,
+    #             start_state="configuring",
+    #             goal_state="inactive",
+    #             entities=[
+    #                 EmitEvent(event=ChangeState(
+    #                     lifecycle_node_matcher=matches_action(slam_toolbox),
+    #                     transition_id=Transition.TRANSITION_ACTIVATE))
+    #             ])))
 
     return LaunchDescription(arguments + [use_sim_time_group] + events)

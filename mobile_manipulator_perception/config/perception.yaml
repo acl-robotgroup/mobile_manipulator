@@ -46,9 +46,9 @@
       mode: localization
 
       scan_topic: scan
-      base_frame: base_footprint
-      odom_frame: odom
       map_frame: map
+      odom_frame: odom
+      base_frame: base_footprint
       transform_publish_period: 0.1
 
       use_map_saver: false
@@ -58,11 +58,36 @@
       minimum_travel_distance: 0.05
       minimum_travel_heading: 0.1
 
+  # ref: https://nvidia-isaac-ros.github.io/repositories_and_packages/isaac_ros_mapping_and_localization/isaac_ros_visual_global_localization/index.html#ros-parameters
+  visual_localization_node:
+    ros__parameters:
+      num_cameras: 2
+      enable_continuous_localization: false
+
+      publish_map_to_base_tf: false
+      map_frame: map
+      base_frame: base_footprint
+
+  # ref: https://nvidia-isaac-ros.github.io/repositories_and_packages/isaac_ros_visual_slam/isaac_ros_visual_slam/index.html#ros-parameters
+  visual_slam_node:
+    ros__parameters:
+      num_cameras: 2
+      rectified_images: false
+
+      publish_map_to_odom_tf: true
+      publish_odom_to_base_tf: true
+      map_frame: map
+      odom_frame: odom
+      base_frame: base_footprint
+
+      enable_localization_n_mapping: true
+      enable_ground_constraint_in_odometry: true
+      enable_ground_constraint_in_slam: true
+      enable_imu_fusion: false
+
   # ref: https://nvidia-isaac-ros.github.io/repositories_and_packages/isaac_ros_nvblox/isaac_ros_nvblox/api/parameters.html
   nvblox_node:
     ros__parameters:
-      use_sim_time: true
-
       num_cameras: 3
       voxel_size: 0.05
       global_frame: map

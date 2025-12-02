@@ -1,0 +1,6 @@
+stereo_cameras:
+  - name: camera_front
+    left: /camera_front/infra2/image_compressed
+    left_camera_info: /camera_front/infra2/camera_info
+    right: /camera_front/infra1/image_compressed
+    right_camera_info: /camera_front/infra1/camera_info
