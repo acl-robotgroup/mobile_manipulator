@@ -7,7 +7,8 @@
       local_costmap_topic: local_costmap/costmap_raw
       robot_base_frame: base_footprint
       local_frame: odom
-      global_frame: odom
+      global_frame: map
+      enable_stamped_cmd_vel: true
 
       behavior_plugins: [spin, backup, drive_on_heading, wait]
       spin:
@@ -39,7 +40,7 @@
       GridBased:
         plugin: nav2_smac_planner::SmacPlannerHybrid
         tolerance: 0.3
-        minimum_turning_radius: 0.2
+        minimum_turning_radius: 0.0
         smooth_path: true
 
   global_costmap:
@@ -92,31 +93,41 @@
 
       controller_plugins: [FollowPath]
       FollowPath:
-        plugin: nav2_mppi_controller::MPPIController
-        motion_model: DiffDrive
-        model_dt: 0.05
-        vx_min: -0.3
-        vx_max: 0.5
-        wz_max: 1.5
-        ax_min: -3.0
-        ax_max: 3.0
-        az_max: 3.5
+        plugin: nav2_graceful_controller::GracefulController
+        allow_backward: true
+        v_linear_min: 0.3
+        v_linear_max: 2.0
+        v_angular_max: 2.0
+        v_angular_min_in_place: 0.5
+        rotation_scaling_factor: 0.8
 
-        batch_size: 2000
-        vx_std: 0.2
-        wz_std: 0.6
+        slowdown_radius: 2.0
 
-        visualize: false
-        publish_optimal_trajectory: true
+        # plugin: nav2_mppi_controller::MPPIController
+        # motion_model: DiffDrive
+        # model_dt: 0.05
+        # vx_min: -0.3
+        # vx_max: 0.5
+        # wz_max: 1.5
+        # ax_min: -3.0
+        # ax_max: 3.0
+        # az_max: 3.5
 
-        critics:
-          - ConstraintCritic
-          - GoalCritic
-          - GoalAngleCritic
-          - PathAlignCritic
-          - PathFollowCritic
-          - PathAngleCritic
-          - PreferForwardCritic
+        # batch_size: 2000
+        # vx_std: 0.2
+        # wz_std: 0.6
+
+        # visualize: false
+        # publish_optimal_trajectory: true
+
+        # critics:
+        #   - ConstraintCritic
+        #   - GoalCritic
+        #   - GoalAngleCritic
+        #   - PathAlignCritic
+        #   - PathFollowCritic
+        #   - PathAngleCritic
+        #   - PreferForwardCritic
 
   local_costmap:
     local_costmap:
