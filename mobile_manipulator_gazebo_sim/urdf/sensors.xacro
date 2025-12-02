@@ -171,6 +171,56 @@
                 <visualize>true</visualize>
             </sensor>
 
+            <sensor name="${target}_infra_camera1" type="camera">
+                <pose relative_to="${target}_infra1_frame">0 0 0 0 0 0</pose>
+
+                <topic>${target}/infra1/image_raw</topic>
+                <camera_info_topic>${target}/infra1/camera_info</camera_info_topic>
+                <gz_frame_id>${target}_infra1_optical_frame</gz_frame_id>
+                <update_rate>${fps}</update_rate>
+
+                <camera>
+                    <horizontal_fov>${radians(color_fov)}</horizontal_fov>
+                    <image>
+                        <width>${depth_image_width}</width>
+                        <height>${depth_image_height}</height>
+                        <format>L8</format>
+                    </image>
+                    <clip>
+                        <near>0.1</near>
+                        <far>100</far>
+                    </clip>
+                </camera>
+
+                <always_on>true</always_on>
+                <visualize>true</visualize>
+            </sensor>
+
+            <sensor name="${target}_infra_camera2" type="camera">
+                <pose relative_to="${target}_infra2_frame">0 0 0 0 0 0</pose>
+
+                <topic>${target}/infra2/image_raw</topic>
+                <camera_info_topic>${target}/infra2/camera_info</camera_info_topic>
+                <gz_frame_id>${target}_infra2_optical_frame</gz_frame_id>
+                <update_rate>${fps}</update_rate>
+
+                <camera>
+                    <horizontal_fov>${radians(color_fov)}</horizontal_fov>
+                    <image>
+                        <width>${depth_image_width}</width>
+                        <height>${depth_image_height}</height>
+                        <format>L8</format>
+                    </image>
+                    <clip>
+                        <near>0.1</near>
+                        <far>100</far>
+                    </clip>
+                </camera>
+
+                <always_on>true</always_on>
+                <visualize>true</visualize>
+            </sensor>
+
             <sensor name="${target}_depth_camera" type="depth">
                 <pose relative_to="${target}_depth_frame">0 0 0 0 0 0</pose>
 
