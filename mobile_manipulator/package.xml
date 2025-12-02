@@ -12,6 +12,11 @@
     <buildtool_depend>ament_cmake</buildtool_depend>
 
     <!-- execution dependencies -->
+    <!-- development tools -->
+    <exec_depend>rqt_tf_tree</exec_depend>
+    <exec_depend>tf2_ros</exec_depend>
+    <exec_depend>teleop_twist_keyboard</exec_depend>
+
     <exec_depend>mobile_manipulator_bringup</exec_depend>
     <exec_depend>mobile_manipulator_description</exec_depend>
 
