@@ -12,6 +12,8 @@ Package Details
    mobile_manipulator_description
    mobile_manipulator_bringup
    mobile_manipulator_gazebo_sim
+   mobile_manipulator_perception
+   mobile_manipulator_navigation
 
 This section documents what packages are included in this project and what are
 they responsible for.
@@ -37,3 +39,9 @@ In short, this project contains the following packages:
 - :ref:`Gazebo Simulation <arch_pkg_mobile_manipulator_gazebo_sim>`: Worlds,
   bridge and extra xacro files to simulate the robot in `Gazebo
   <https://gazebosim.org/home>`_.
+- :ref:`Perception <arch_pkg_mobile_manipulator_perception>`: Laser filtering
+  and merging, visual SLAM/localization, dense mapping (NVBLOX), RViz, and
+  bagging utilities.
+- :ref:`Navigation <arch_pkg_mobile_manipulator_navigation>`: Nav2 stack
+  (behavior, planner, controller) configured for the robot footprint with
+  NVBLOX-backed costmaps and optional RViz view.

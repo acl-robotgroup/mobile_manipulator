@@ -8,17 +8,19 @@ Purpose
 =======
 
 - Runs the robot in Gazebo using the same description as hardware.
-- Spawns the robot, loads controllers, and bridges key topics between ROS 2 and
-  Gazebo transport for sensor and command streams.
-- Hosts simulation-specific URDF overlays (controllers, Gazebo plugins) and
-  world assets.
+- Spawns the robot, loads Gazebo-side ros2_control hooks, and bridges key topics
+  between ROS 2 and Gazebo transport for sensors and commands.
+- Hosts simulation-specific URDF overlays (controllers/plugins) and world
+  assets.
 
 Key Files
 =========
 
-- `launch/sim.launch.py`: boots Gazebo, loads controllers, and prepares bridge
-  configuration.
-- `launch/spawn.launch.py`: spawns the robot entity into a chosen world.
+- `launch/sim.launch.py`: starts `ros_gz_sim` with the selected world, includes
+  `spawn.launch.py`, and loads the bridge defined in ``config/gz_bridge.yaml``.
+- `launch/spawn.launch.py`: republishes the description with a Gazebo overlay,
+  spawns the entity via ``ros_gz_sim create``, and sequentially starts
+  ``joint_state_broadcaster`` then ``diff_drive_base_controller``.
 - `config/gz_bridge.yaml`: declares Gazebo <-> ROS topic bridges.
 - `config/controllers.yaml`: controller setup for `ros2_control` integration.
 - `urdf/*.xacro`: Gazebo-specific macros (e.g., `ros2_control` and plugin hooks)

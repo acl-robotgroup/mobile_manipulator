@@ -7,25 +7,25 @@ mobile_manipulator
 Purpose
 =======
 
-- Provides a metapackage entry point so downstream workspaces can depend on a
-  single package that brings in the full robot stack. Refer to `Using variants
+- Metapackage entry point so downstream workspaces depend on one package and
+  receive the full stack. See `Using variants
   <https://docs.ros.org/en/jazzy/How-To-Guides/Using-Variants.html>`_ for more
-  information on metapackages in ROS 2.
-- Hosts repository management assets: `.repos` manifest for `vcstool
-  <https://wiki.ros.org/vcstool>`_, which defines external dependencies of this
-  project.
-- Contains git patch files, and the `patch_repos.py` helper to apply curated
-  fixes after fetching dependencies.
+  on ROS 2 metapackages.
+- Hosts dependency management assets: a `.repos` manifest for `vcstool
+  <https://wiki.ros.org/vcstool>`_ plus a patch manifest to bring third-party
+  sources in line with this workspace.
+- Provides `scripts/apply_patches.py`, a tiny helper that runs `git apply` for
+  each entry in ``patches.yaml`` after sources are fetched.
 
 Key Files
 =========
 
 - `mobile_manipulator.repos`: `vcstool` source manifest to fetch external
   repositories.
-- `patches.yaml` and `patches/*.diff`: Patch list and payloads for fetched
-  repositories.
-- `scripts/patch_repos.py`: Script for applying the patches defined in
-  `patches.yaml`.
+- `patches.yaml`: Maps cloned repositories to patch payloads in
+  ``patches/*.diff``.
+- `scripts/apply_patches.py`: Applies the curated patches recorded in
+  ``patches.yaml`` using ``git apply``.
 
 Technologies
 ============

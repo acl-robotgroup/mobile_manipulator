@@ -5,45 +5,44 @@ Hardware Bringup
 ==================
 
 Launch files for the live robot: base, lidars, depth cameras, and visualization.
-See package architecture at :ref:`mobile_manipulator_bringup`.
 
-Full hardware stack
-===================
+.. note::
+
+   Checkout package architecture at :ref:`arch_pkg_mobile_manipulator_bringup`.
+
+Launch Files
+============
+
+``bringup.launch.py``
+---------------------
+
+Starts all hardware drivers (two RPLIDARs + four Orbbec cameras) with optional
+RViz visualization.
 
 .. code-block:: bash
 
    ros2 launch mobile_manipulator_bringup bringup.launch.py
 
 Arguments
----------
+~~~~~~~~~
 
-- No arguments; device driver parameters are set in ``config/sensors.yaml``.
+- ``visualize`` (default ``false``): launch RViz with ``rviz/visualize.rviz``.
+  The drivers run either way.
 
 What it does
-------------
+~~~~~~~~~~~~
 
 - Includes ``mobile_manipulator_description/launch/description.launch.py`` so TF
   is available immediately.
-- Namespaces duplicated sensors (``lidar_front``, ``lidar_rear``, ``camera_*``)
-  to keep topics unique.
-- Starts RPLIDAR nodes plus four Orbbec cameras, staggering their startup with
-  ``TimerAction`` to avoid USB spikes.
+- Starts two ``sllidar_node`` processes in ``lidar_front`` and ``lidar_rear``
+  namespaces using parameters from ``config/bringup.yaml``.
+- Spins up an ``rclcpp_components`` container running four
+  ``orbbec_camera::OBCameraNodeDriver`` components in the ``camera_*``
+  namespaces, reusing the same parameter file.
+- Optionally opens RViz when ``visualize:=true``.
 
-RViz-only view
-==============
+Configuration
+=============
 
-.. code-block:: bash
-
-   ros2 launch mobile_manipulator_bringup visualize.launch.py
-
-Arguments
----------
-
-- No launch-time arguments.
-
-What it does
-------------
-
-- Starts RViz with ``rviz/display.rviz`` from this package.
-- Leaves hardware drivers untouched—useful for remote visualization or pairing
-  with simulation bridges.
+- Edit ``config/bringup.yaml`` to update device serial numbers, frame IDs, and
+  camera resolutions before running the launch file.

@@ -19,6 +19,8 @@ TODO
    usage/description
    usage/bringup
    usage/gazebo_sim
+   usage/perception
+   usage/navigation
 
 .. toctree::
    :caption: Architecture

@@ -7,30 +7,34 @@ mobile_manipulator_bringup
 Purpose
 =======
 
-- Boots the hardware stack: base drivers, lidars, depth cameras, and supporting
-  nodes required to operate the platform.
-- Applies sensor parameters and namespaces so duplicated devices (e.g.,
-  `lidar_front`, `lidar_rear`, `camera_*`) stay isolated in TF and topics.
-- Provides RViz setups for monitoring live hardware.
+- Boots the hardware stack: two RPLIDARs plus four Orbbec depth cameras, with
+  namespacing so identical devices remain isolated in TF and topics.
+- Uses a single parameter file to hold serial numbers, device IDs, and shared
+  driver settings.
+- Optionally launches RViz alongside the drivers for live monitoring.
 
 Key Files
 =========
 
-- `launch/bringup.launch.py`: orchestrates hardware nodes and namespaces; uses
-  `TimerAction` delays to stagger camera startup.
-- `config/sensors.yaml`: parameter file for drivers and topic names.
-- `launch/visualize.launch.py` and `rviz/display.rviz`: RViz visualization for
-  hardware sessions.
+- `launch/bringup.launch.py`: includes the description publisher, spins up an
+  `rclcpp_components` container with four ``orbbec_camera`` nodes, and runs
+  two ``sllidar_node`` processes (front and rear). A ``visualize`` argument
+  gates launching RViz.
+- `config/bringup.yaml`: driver parameters shared across all sensors (serial
+  numbers, frame IDs, resolutions, point cloud toggles, etc.).
+- `rviz/visualize.rviz`: RViz layout for monitoring live sensor topics.
 
 Technologies
 ============
 
 - `ROS 2 launch
   <https://docs.ros.org/en/jazzy/Concepts/Intermediate/Launch/Launch-system.html>`_
-  for composing bringup flows and timed actions.
+  for composing the bringup flow.
 - Namespaces/remapping (`ros2` remapping guide
   <https://docs.ros.org/en/jazzy/Concepts/Intermediate/Remapping/Remapping.html>_)
-  to prevent topic/frame collisions across identical sensors.
+  keep duplicated sensors collision-free.
+- `rclcpp_components` containers for hosting multiple `orbbec_camera` components
+  in a single process.
 - `tf2 <https://docs.ros.org/en/jazzy/Concepts/Intermediate/TF.html>`_ to keep
   hardware frames consistent with the description package.
 - Parameter YAML files (`ROS 2 parameters

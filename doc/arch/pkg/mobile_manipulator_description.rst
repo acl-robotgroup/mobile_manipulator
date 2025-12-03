@@ -19,10 +19,11 @@ Key Files
 
 - `urdf/*.xacro`: parameterized robot, base, arm, and sensor macros; resolves
   external meshes and description dependencies.
-- `launch/description.launch.py`: starts `robot_state_publisher` using
-  `FindPackageShare`/`PathJoinSubstitution`, with arguments forwarded to Xacro.
+- `launch/description.launch.py`: builds the URDF via `xacro`, rewrites
+  ``package://`` URIs to absolute paths, and starts `robot_state_publisher`
+  with ``use_sim_time`` and arbitrary ``xacro_args`` mappings.
 - `launch/display.launch.py` and `rviz/display.rviz`: RViz-based visualization
-  entrypoint.
+  entrypoint with a ``joint_state_publisher_gui``.
 
 Technologies
 ============
