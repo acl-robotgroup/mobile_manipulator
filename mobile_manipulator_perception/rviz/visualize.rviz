@@ -4,6 +4,7 @@ Panels:
     Property Tree Widget:
       Expanded:
         - /SLAM1
+        - /Visual SLAM1
         - /Nvblox1
   - Class: rviz_common/Views
     Name: Views
@@ -50,57 +51,61 @@ Visualization Manager:
           Color Scheme: map
 
     - Class: rviz_common/Group
+      Name: Visual SLAM
+      Enabled: true
+      Displays:
+        - Class: rviz_default_plugins/Odometry
+          Name: Odometry
+          Enabled: true
+          Topic: odom
+          Shape:
+            Value: Arrow
+            Axes Length: 1
+            Axes Radius: 0.1
+            Head Length: 0.1
+            Head Radius: 0.03
+            Shaft Length: 0.3
+            Shaft Radius: 0.015
+          Covariance:
+            Orientation:
+              Offset: 0.3
+            Position:
+              Alpha: 0.03
+        - Class: rviz_default_plugins/PointCloud2
+          Name: Landmarks
+          Enabled: true
+          Topic: visual_slam/vis/landmarks_cloud
+          Style: Flat Squares
+          Size (m): 0.02
+
+    - Class: rviz_common/Group
       Name: Nvblox
       Enabled: true
       Displays:
         - Ceiling Height: 1.5
           Class: nvblox_rviz_plugin/NvbloxMesh
+          Enabled: false
           Cut Ceiling: true
           Mesh Color: Color
           Name: NvbloxMesh
           Topic: nvblox_node/mesh
-          Enabled: false
         - Class: nvblox_rviz_plugin/NvbloxVoxelBlockLayer
           Name: Nvblox Voxels
-          Topic: nvblox_node/color_layer
           Enabled: false
+          Topic: nvblox_node/color_layer
         - Class: rviz_default_plugins/Marker
           Name: Map Slice Bounds
-          Topic: nvblox_node/esdf_slice_bounds
           Enabled: false
-        - Alpha: 1
-          Autocompute Intensity Bounds: false
-          Autocompute Enabled Bounds:
-            Max Enabled: 10
-            Min Enabled: -10
-            Enabled: true
-          Axis: Z
-          Channel Name: intensity
-          Class: rviz_default_plugins/PointCloud2
-          Color: 255; 255; 255
-          Color Transformer: Intensity
-          Decay Time: 0
-          Enabled: true
-          Invert Rainbow: false
-          Max Color: 255; 255; 255
-          Max Intensity: 1
-          Min Color: 0; 0; 0
-          Min Intensity: 0
+          Topic: nvblox_node/esdf_slice_bounds
+        - Class: rviz_default_plugins/PointCloud2
           Name: Esdf Slice
-          Position Transformer: XYZ
-          Selectable: true
-          Size (Pixels): 3
-          Size (m): 0.02500000037252903
+          Enabled: true
+          Topic: nvblox_node/static_esdf_pointcloud
+          Autocompute Intensity Bounds: false
+          Min Intensity: 0
+          Max Intensity: 1
+          Size (m): 0.025
           Style: Flat Squares
-          Topic:
-            Depth: 5
-            Durability Policy: Volatile
-            Filter size: 10
-            History Policy: Keep Last
-            Reliability Policy: Reliable
-            Value: /nvblox_node/static_esdf_pointcloud
-          Use Fixed Frame: true
-          Use rainbow: true
 
   Tools:
     - Class: rviz_default_plugins/Interact

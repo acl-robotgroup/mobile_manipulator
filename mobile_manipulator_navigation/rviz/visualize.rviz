@@ -43,11 +43,11 @@ Visualization Manager:
           Alpha: 0.3
         - Class: rviz_default_plugins/Path
           Name: Plan
+          Enabled: true
           Topic: plan
           Line Style: Billboards
           Line Width: 0.03
           Color: 0; 255; 0
-          Enabled: true
 
     - Class: rviz_common/Group
       Name: Local Controller
