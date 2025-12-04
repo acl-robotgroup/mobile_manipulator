@@ -1,4 +1,11 @@
 /**:
+  tracer_base_node:
+    ros__parameters:
+      port_name: can_tracer
+      odom_topic_name: odom_tracer
+      base_frame: base_link_tracer
+      odom_frame: odom 
+
   lidar_front:
     sllidar_node:
       ros__parameters:
@@ -30,8 +37,8 @@
         enable_color: true
         color_fps: 30
         color_format: MJPG
-        color_width: 1920
-        color_height: 1080
+        color_width: 1280
+        color_height: 720
         
         # depth
         enable_depth: true
@@ -58,14 +65,15 @@
         # color
         enable_color: true
         color_fps: 30
-        color_width: 1920
-        color_height: 1080
+        color_format: MJPG
+        color_width: 640
+        color_height: 480
         
         # depth
         enable_depth: true
         depth_fps: 30
-        depth_width: 1280
-        depth_height: 800
+        depth_width: 640
+        depth_height: 400
 
         # point cloud
         enable_point_cloud: false
@@ -81,14 +89,15 @@
         # color
         enable_color: true
         color_fps: 30
-        color_width: 1920
-        color_height: 1080
+        color_format: MJPG
+        color_width: 640
+        color_height: 480
         
         # depth
         enable_depth: true
         depth_fps: 30
-        depth_width: 1280
-        depth_height: 800
+        depth_width: 640
+        depth_height: 400
 
         publish_tf: false
 
@@ -102,13 +111,14 @@
         # color
         enable_color: true
         color_fps: 30
-        color_width: 1920
-        color_height: 1080
+        color_format: MJPG
+        color_width: 640
+        color_height: 480
         
         # depth
         enable_depth: true
         depth_fps: 30
-        depth_width: 1280
-        depth_height: 800
+        depth_width: 640
+        depth_height: 400
 
         publish_tf: false 

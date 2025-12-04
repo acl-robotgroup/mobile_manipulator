@@ -1,9 +1,9 @@
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, TimerAction
 from launch.conditions import IfCondition
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
-from launch_ros.actions import ComposableNodeContainer, Node
+from launch_ros.actions import ComposableNodeContainer, LoadComposableNodes, Node
 from launch_ros.descriptions import ComposableNode
 from launch_ros.substitutions import FindPackageShare
 
@@ -56,33 +56,18 @@ def generate_launch_description():
             plugin="orbbec_camera::OBCameraNodeDriver",
             parameters=[config],
         ))
-    composable_nodes.append(
-        ComposableNode(
-            name="orbbec_camera_node",
-            namespace="camera_front",
-            package="orbbec_camera",
-            plugin="orbbec_camera::OBCameraNodeDriver",
-            parameters=[config],
-        ))
-    composable_nodes.append(
-        ComposableNode(
-            name="orbbec_camera_node",
-            namespace="camera_left",
-            package="orbbec_camera",
-            plugin="orbbec_camera::OBCameraNodeDriver",
-            parameters=[config],
-        ))
-    composable_nodes.append(
-        ComposableNode(
-            name="orbbec_camera_node",
-            namespace="camera_right",
-            package="orbbec_camera",
-            plugin="orbbec_camera::OBCameraNodeDriver",
-            parameters=[config],
-        ))
 
     # nodes
     nodes = []
+    nodes.append(
+        Node(
+            name="tracer_base_node",
+            package="tracer_base",
+            executable="tracer_base_node",
+            emulate_tty=True,  # requires tty to work properly
+            parameters=[config],
+        ))
+
     nodes.append(
         ComposableNodeContainer(
             name="sensors_container",
@@ -110,6 +95,7 @@ def generate_launch_description():
             executable="sllidar_node",
             parameters=[config],
         ))
+
     nodes.append(
         Node(
             name="rviz2",
@@ -119,4 +105,55 @@ def generate_launch_description():
             condition=IfCondition(visualize),
         ))
 
-    return LaunchDescription(arguments + includes + nodes)
+    events = []
+
+    # load camera nodes with delay due to device access conflict
+    camera_front_node = ComposableNode(
+        name="orbbec_camera_node",
+        namespace="camera_front",
+        package="orbbec_camera",
+        plugin="orbbec_camera::OBCameraNodeDriver",
+        parameters=[config],
+    )
+    load_camera_front_node = LoadComposableNodes(
+        target_container="sensors_container",
+        composable_node_descriptions=[camera_front_node],
+    )
+    events.append(TimerAction(
+        period=5.0,
+        actions=[load_camera_front_node],
+    ))
+
+    camera_left_node = ComposableNode(
+        name="orbbec_camera_node",
+        namespace="camera_left",
+        package="orbbec_camera",
+        plugin="orbbec_camera::OBCameraNodeDriver",
+        parameters=[config],
+    )
+    load_camera_left_node = LoadComposableNodes(
+        target_container="sensors_container",
+        composable_node_descriptions=[camera_left_node],
+    )
+    events.append(TimerAction(
+        period=10.0,
+        actions=[load_camera_left_node],
+    ))
+
+    camera_right_node = ComposableNode(
+        name="orbbec_camera_node",
+        namespace="camera_right",
+        package="orbbec_camera",
+        plugin="orbbec_camera::OBCameraNodeDriver",
+        parameters=[config],
+    )
+    load_camera_right_node = LoadComposableNodes(
+        target_container="sensors_container",
+        composable_node_descriptions=[camera_right_node],
+    )
+    events.append(TimerAction(
+        period=15.0,
+        actions=[load_camera_right_node],
+    ))
+
+    return LaunchDescription(arguments + includes + nodes + events)
