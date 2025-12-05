@@ -3,7 +3,7 @@
     ros__parameters:
       port_name: can_tracer
       odom_topic_name: odom_tracer
-      base_frame: base_link_tracer
+      base_frame: base_footprint_base
       odom_frame: odom 
 
   lidar_front:

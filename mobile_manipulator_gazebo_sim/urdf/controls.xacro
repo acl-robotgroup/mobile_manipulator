@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:macro name="diff_drive_controller" params="prefix">
+        <!-- properties of tracer declared in the original xacro file -->
+        <gazebo>
+            <plugin filename="gz-sim-diff-drive-system" name="gz::sim::systems::DiffDrive">
+                <left_joint>${prefix}wheel_left_joint</left_joint>
+                <right_joint>${prefix}wheel_right_joint</right_joint>
+
+                <wheel_separation>${track}</wheel_separation>
+                <wheel_radius>${wheel_radius}</wheel_radius>
+
+                <topic>${prefix}cmd_vel</topic>
+                <odom_topic>${prefix}odom_base</odom_topic>
+                <odom_publish_frequency>100</odom_publish_frequency>
+                <tf_topic>/tf</tf_topic>
+                <frame_id>${prefix}odom</frame_id>
+                <child_frame_id>${prefix}base_footprint_base</child_frame_id>
+            </plugin>
+        </gazebo>
+    </xacro:macro>
+
+    <xacro:macro name="odometry_publisher" params="prefix">
+        <gazebo>
+            <plugin filename="gz-sim-odometry-publisher-system"
+                name="gz::sim::systems::OdometryPublisher">
+                <odom_topic>${prefix}odom</odom_topic>
+                <odom_publish_frequency>100</odom_publish_frequency>
+                <tf_topic>/tf</tf_topic>
+                <odom_frame>${prefix}odom</odom_frame>
+                <robot_base_frame>${prefix}base_footprint</robot_base_frame>
+            </plugin>
+        </gazebo>
+    </xacro:macro>
+</robot>

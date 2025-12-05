@@ -24,11 +24,10 @@ Visualization Manager:
       Enabled: true
     - Class: rviz_default_plugins/TF
       Name: TF
-      Filter (whitelist): map|odom|base_footprint
+      Enabled: false
       Show Names: true
       Show Axes: true
       Show Arrows: true
-      Enabled: true
 
     - Class: rviz_common/Group
       Name: Global Planner

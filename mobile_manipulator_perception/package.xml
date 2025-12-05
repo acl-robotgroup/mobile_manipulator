@@ -12,6 +12,8 @@
     <buildtool_depend>ament_cmake</buildtool_depend>
 
     <!-- execution dependencies -->
+    <exec_depend>dual_laser_merger</exec_depend>
+    <exec_depend>laser_filters</exec_depend>
     <exec_depend>isaac_mapping_ros</exec_depend>
     <exec_depend>isaac_ros_h264_encoder</exec_depend>
     <exec_depend>isaac_ros_nvblox</exec_depend>

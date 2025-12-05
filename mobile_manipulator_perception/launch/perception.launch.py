@@ -1,8 +1,8 @@
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, EmitEvent, GroupAction, RegisterEventHandler
+from launch.actions import DeclareLaunchArgument, EmitEvent, GroupAction, RegisterEventHandler, OpaqueFunction
 from launch.conditions import IfCondition
 from launch.events import matches_action
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
+from launch.substitutions import IfElseSubstitution, LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import ComposableNodeContainer, LifecycleNode, Node, SetParameter
 from launch_ros.descriptions import ComposableNode
 from launch_ros.event_handlers import OnStateTransition
@@ -22,6 +22,18 @@ def generate_launch_description():
         ))
     arguments.append(
         DeclareLaunchArgument(
+            "is_mapping",
+            default_value="true",
+            description="Whether to run in mapping mode or localization mode",
+        ))
+    arguments.append(
+        DeclareLaunchArgument(
+            "map",
+            default_value="/home/admin/ws/map",
+            description="Path to map directory",
+        ))
+    arguments.append(
+        DeclareLaunchArgument(
             "visualize",
             default_value="false",
             description="Whether to visualize robot perception",
@@ -29,7 +41,15 @@ def generate_launch_description():
 
     # initialize substitutions
     use_sim_time = LaunchConfiguration("use_sim_time")
+    map = LaunchConfiguration("map")
+    is_mapping = LaunchConfiguration("is_mapping")
     visualize = LaunchConfiguration("visualize")
+
+    visual_slam_map_config_name = IfElseSubstitution(
+        condition=is_mapping,
+        if_value="save_map_folder_path",
+        else_value="load_map_folder_path",
+    )
 
     config = PathJoinSubstitution([
         FindPackageShare("mobile_manipulator_perception"),
@@ -82,7 +102,13 @@ def generate_launch_description():
             name="visual_slam_node",
             package="isaac_ros_visual_slam",
             plugin="nvidia::isaac_ros::visual_slam::VisualSlamNode",
-            parameters=[config],
+            parameters=[
+                config, {
+                    visual_slam_map_config_name: map,
+                    "enable_slam_visualization": visualize,
+                    "enable_landmarks_view": visualize,
+                }
+            ],
             remappings=[
                 ("visual_slam/image_0", "camera_front/infra1/image_raw"),
                 ("visual_slam/camera_info_0",

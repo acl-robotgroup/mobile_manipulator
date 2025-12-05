@@ -128,7 +128,7 @@
 
     <xacro:macro name="gemini2" params="target">
         <!-- orbbec gemini2 -->
-         <xacro:property name="fps" value="60"/>
+         <xacro:property name="fps" value="30"/>
 
         <xacro:property name="color_fov" value="86"/>
         <xacro:property name="color_image_width" value="640"/>

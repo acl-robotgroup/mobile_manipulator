@@ -5,13 +5,14 @@ Panels:
       Expanded:
         - /Cameras1
         - /Depth Images1
+        - /Depth Clouds1
   - Class: rviz_common/Views
     Name: Views
 Visualization Manager:
   Class: ""
   Name: root
   Global Options:
-    Fixed Frame: odom
+    Fixed Frame: base_footprint
     Frame Rate: 30
   Displays:
     - Class: rviz_default_plugins/Grid
@@ -24,15 +25,15 @@ Visualization Manager:
       Enabled: true
     - Class: rviz_default_plugins/TF
       Name: TF
-      Filter (whitelist): odom|base_footprint
+      Enabled: false
       Show Names: true
       Show Axes: true
       Show Arrows: true
-      Enabled: true
 
     - Class: rviz_default_plugins/Odometry
       Name: Odometry
-      Topic: odom
+      Enabled: false
+      Topic: odom_base
       Shape:
         Value: Arrow
         Axes Length: 1
@@ -46,41 +47,40 @@ Visualization Manager:
           Offset: 0.3
         Position:
           Alpha: 0.03
-      Enabled: true
     - Class: rviz_default_plugins/LaserScan
       Name: Lidar Front
+      Enabled: true
       Topic: lidar_front/scan
       Color Transformer: FlatColor
       Color: 0; 255; 0
       Size (m): 0.02
-      Enabled: true
     - Class: rviz_default_plugins/LaserScan
       Name: Lidar Rear
+      Enabled: true
       Topic: lidar_rear/scan
       Color Transformer: FlatColor
       Color:  0; 0; 255
       Size (m): 0.02
-      Enabled: true
     - Class: rviz_common/Group
       Name: Cameras
       Enabled: true
       Displays:
         - Class: rviz_default_plugins/Camera
           Name: Top
-          Topic: camera_top/color/image_raw
           Enabled: true
+          Topic: camera_top/color/image_raw
         - Class: rviz_default_plugins/Camera
           Name: Front
-          Topic: camera_front/color/image_raw
           Enabled: true
+          Topic: camera_front/color/image_raw
         - Class: rviz_default_plugins/Camera
           Name: Left
-          Topic: camera_left/color/image_raw
           Enabled: true
+          Topic: camera_left/color/image_raw
         - Class: rviz_default_plugins/Camera
           Name: Right
-          Topic: camera_right/color/image_raw
           Enabled: true
+          Topic: camera_right/color/image_raw
 
     - Class: rviz_common/Group
       Name: Depth Images
@@ -88,32 +88,53 @@ Visualization Manager:
       Displays:
         - Class: rviz_default_plugins/Image
           Name: Top
+          Enabled: true
           Normalize Range: false
           Topic: camera_top/depth/image_raw
           Min Value: 0
           Max Value: 10
-          Enabled: true
         - Class: rviz_default_plugins/Image
           Name: Front
+          Enabled: true
           Normalize Range: false
           Topic: camera_front/depth/image_raw
           Min Value: 0
           Max Value: 10
-          Enabled: true
         - Class: rviz_default_plugins/Image
           Name: Left
+          Enabled: true
           Normalize Range: false
           Topic: camera_left/depth/image_raw
           Min Value: 0
           Max Value: 10
-          Enabled: true
         - Class: rviz_default_plugins/Image
           Name: Right
+          Enabled: true
           Normalize Range: false
           Topic: camera_right/depth/image_raw
           Min Value: 0
           Max Value: 10
+
+    - Class: rviz_common/Group
+      Name: Depth Clouds
+      Enabled: false
+      Displays:
+        - Class: rviz_default_plugins/DepthCloud
+          Name: Top
           Enabled: true
+          Depth Map Topic: /camera_top/depth/image_raw
+        - Class: rviz_default_plugins/DepthCloud
+          Name: Front
+          Enabled: true
+          Depth Map Topic: /camera_front/depth/image_raw
+        - Class: rviz_default_plugins/DepthCloud
+          Name: Left
+          Enabled: true
+          Depth Map Topic: /camera_left/depth/image_raw
+        - Class: rviz_default_plugins/DepthCloud
+          Name: Right
+          Enabled: true
+          Depth Map Topic: /camera_right/depth/image_raw
 
   Tools:
     - Class: rviz_default_plugins/Interact

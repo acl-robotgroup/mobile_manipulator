@@ -1,31 +1,13 @@
 <?xml version="1.0"?>
 <robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
-    <xacro:include filename="$(find mobile_manipulator_gazebo_sim)/urdf/ros2_control.xacro"/>
+    <xacro:include filename="$(find mobile_manipulator_gazebo_sim)/urdf/controls.xacro"/>
     <xacro:include filename="$(find mobile_manipulator_gazebo_sim)/urdf/sensors.xacro"/>
 
     <xacro:property name="ns" value="${'$(arg namespace)' != '' and '$(arg namespace)'.rstrip('/') or ''}"/>
     <xacro:property name="prefix" value="${ns != '' and ns + '/' or ''}"/>
 
-    <xacro:ros2_control>
-        <joints>
-            <joint name="${prefix}wheel_left_joint">
-                <command_interface name="velocity">
-                    <param name="min">-1</param>
-                    <param name="max">1</param>
-                </command_interface>
-                <state_interface name="position"/>
-                <state_interface name="velocity"/>
-            </joint>
-            <joint name="${prefix}wheel_right_joint">
-                <command_interface name="velocity">
-                    <param name="min">-1</param>
-                    <param name="max">1</param>
-                </command_interface>
-                <state_interface name="position"/>
-                <state_interface name="velocity"/>
-            </joint>
-        </joints>
-    </xacro:ros2_control>
+    <xacro:diff_drive_controller prefix="${prefix}"/>
+    <!-- <xacro:odometry_publisher prefix="${prefix}"/> -->
 
     <xacro:lidar target="${prefix}lidar_front"/>
     <xacro:lidar target="${prefix}lidar_rear"/>
@@ -35,15 +17,4 @@
     <xacro:gemini2 target="${prefix}camera_front"/>
     <xacro:gemini2 target="${prefix}camera_left"/>
     <xacro:gemini2 target="${prefix}camera_right"/>
-
-    <!-- <gazebo>
-        <plugin filename="gz-sim-odometry-publisher-system"
-            name="gz::sim::systems::OdometryPublisher">
-            <odom_frame>${prefix}odom</odom_frame>
-            <robot_base_frame>${prefix}base_footprint</robot_base_frame>
-            <odom_publish_frequency>100</odom_publish_frequency>
-            <odom_topic>odom</odom_topic>
-            <tf_topic>/tf</tf_topic>
-        </plugin>
-    </gazebo> -->
 </robot>

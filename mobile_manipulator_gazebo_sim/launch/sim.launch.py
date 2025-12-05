@@ -1,9 +1,9 @@
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
+from launch.actions import DeclareLaunchArgument, GroupAction, IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
+from launch_ros.actions import Node, SetUseSimTime
 from launch_ros.substitutions import FindPackageShare
-from ros_gz_bridge.actions import RosGzBridge
 
 
 def generate_launch_description():
@@ -26,7 +26,7 @@ def generate_launch_description():
     gz_bridge_config = PathJoinSubstitution([
         FindPackageShare("mobile_manipulator_gazebo_sim"),
         "config",
-        "gz_bridge.yaml",
+        "gz_bridge_global.yaml",
     ])
 
     # includes
@@ -63,9 +63,15 @@ def generate_launch_description():
 
     nodes = []
     nodes.append(
-        RosGzBridge(
-            bridge_name="ros_gz_bridge",
-            config_file=gz_bridge_config,
+        Node(
+            name="ros_gz_bridge_global",
+            package="ros_gz_bridge",
+            executable="parameter_bridge",
+            parameters=[{
+                "config_file": gz_bridge_config,
+            }],
         ))
 
-    return LaunchDescription(arguments + includes + nodes)
+    use_sim_time_group = GroupAction([SetUseSimTime(True)] + nodes)
+
+    return LaunchDescription(arguments + includes + [use_sim_time_group])

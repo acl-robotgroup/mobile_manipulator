@@ -25,8 +25,7 @@ Visualization Manager:
       Description Topic: robot_description
     - Class: rviz_default_plugins/TF
       Name: TF
-      Enabled: true
-      Filter (whitelist): map|odom|base_footprint
+      Enabled: false
       Show Names: true
       Show Axes: true
       Show Arrows: true
@@ -91,7 +90,7 @@ Visualization Manager:
           Topic: nvblox_node/mesh
         - Class: nvblox_rviz_plugin/NvbloxVoxelBlockLayer
           Name: Nvblox Voxels
-          Enabled: false
+          Enabled: true
           Topic: nvblox_node/color_layer
         - Class: rviz_default_plugins/Marker
           Name: Map Slice Bounds

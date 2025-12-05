@@ -1,7 +1,6 @@
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, GroupAction, IncludeLaunchDescription, RegisterEventHandler
+from launch.actions import DeclareLaunchArgument, GroupAction, IncludeLaunchDescription
 from launch.conditions import IfCondition
-from launch.event_handlers import OnProcessExit
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node, SetUseSimTime
@@ -41,6 +40,13 @@ def generate_launch_description():
             default_value="0",
             description="Yaw orientation to spawn the robot at",
         ))
+    arguments.append(
+        DeclareLaunchArgument(
+            "publish_odom_tf",
+            default_value="false",
+            description="Whether to publish odometry and tf from Gazebo",
+        )
+    )
 
     # initialize substitutions
     visualize = LaunchConfiguration("visualize")
@@ -53,6 +59,11 @@ def generate_launch_description():
         FindPackageShare("mobile_manipulator_gazebo_sim"),
         "urdf",
         "gazebo.xacro",
+    ])
+    gz_bridge_config = PathJoinSubstitution([
+        FindPackageShare("mobile_manipulator_gazebo_sim"),
+        "config",
+        "gz_bridge_robot.yaml",
     ])
     rviz_config = PathJoinSubstitution([
         FindPackageShare("mobile_manipulator_bringup"),
@@ -82,11 +93,7 @@ def generate_launch_description():
 
     # nodes
     nodes = []
-
-    # gz_ros2_control::GazeboSimROS2ControlPlugin in the robot description seems
-    # to cause gazebo run a built-in controller manager, so no need to run a
-    # controller manager node here.
-    gz_spawn_entity = Node(
+    nodes.append(Node(
         package="ros_gz_sim",
         executable="create",
         arguments=[
@@ -103,41 +110,16 @@ def generate_launch_description():
             "-Y",
             yaw,
         ],
-    )
-    joint_state_broadcaster_spawner = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=[
-            "joint_state_broadcaster",
-            "--switch-timeout",
-            "60",
-        ],
-    )
-    diff_drive_base_controller_spawner = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=[
-            "diff_drive_base_controller",
-            "--switch-timeout",
-            "60",
-            "--controller-ros-args",
-            "-r diff_drive_base_controller/cmd_vel:=cmd_vel",
-            # "--controller-ros-args",
-            # "-r /diff_drive_base_controller/odom:=odom",
-        ],
-    )
-    nodes.append(gz_spawn_entity)
-
+    ))
     nodes.append(
-        RegisterEventHandler(event_handler=OnProcessExit(
-            target_action=gz_spawn_entity,
-            on_exit=[joint_state_broadcaster_spawner],
-        )))
-    nodes.append(
-        RegisterEventHandler(event_handler=OnProcessExit(
-            target_action=joint_state_broadcaster_spawner,
-            on_exit=[diff_drive_base_controller_spawner],
-        )))
+        Node(
+            name="ros_gz_bridge",
+            package="ros_gz_bridge",
+            executable="parameter_bridge",
+            parameters=[{
+                "config_file": gz_bridge_config,
+            }],
+        ))
     nodes.append(
         Node(
             package="rviz2",
